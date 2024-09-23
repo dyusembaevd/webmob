@@ -1,101 +1,191 @@
+"use client";
+
+import { Typography } from "@/shared/ui/Typography";
+import { BloggerCard } from "@/widgets/BloggerCard";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
+import { ContentFooter } from "./_sections/ContentFooter";
+import { ContentOne } from "./_sections/ContentOne";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [parallaxFixed, setParallaxFixed] = useState(false);
+  const [parallaxCompleted, setParallaxCompleted] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const startScroll = 1400;
+      const container = document.querySelector(
+        ".parallax-container",
+      ) as HTMLElement | null;
+      const containerHeight = container ? container.offsetHeight : 3406;
+      const endScroll = containerHeight + 680;
+      console.log("ScrollY:", scrollY);
+      console.log("Container height:", containerHeight);
+      console.log("EndScroll:", endScroll);
+
+      if (scrollY > startScroll && scrollY < endScroll) {
+        setParallaxFixed(true);
+        setParallaxCompleted(false);
+      } else if (scrollY >= endScroll) {
+        setParallaxFixed(false);
+        setParallaxCompleted(true);
+      } else {
+        setParallaxFixed(false);
+        setParallaxCompleted(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return (
+    <div className="relative min-h-screen bg-white p-8 pb-0 text-[#171719]">
+      <ContentOne />
+      {/* Parallax content */}
+      <div className="parallax-container relative mx-auto mt-[120px] flex h-[3406px] w-[1120px] flex-col items-stretch justify-start overflow-hidden">
+        <Image
+          src={"/tmp/parallax_cubes.png"}
+          alt="parallax cubes"
+          width={563}
+          height={539}
+          className={`${
+            parallaxFixed
+              ? "parallax-fixed"
+              : parallaxCompleted
+                ? "parallax-absolute"
+                : "parallax-absolute"
+          }`}
+        />
+        <div className="self-center rounded-[26px] bg-bg-accent-subduet-active px-6 pb-2 pt-1">
+          <Typography variant={"headline3"}>Почему мы?</Typography>
+        </div>
+
+        {/* Repeated sections */}
+        <div className="mt-[80px] flex h-[680px] w-full items-stretch justify-start gap-[157px]">
+          <div className="flex w-[540px] flex-col items-stretch justify-center gap-6">
+            <Typography variant={"headline1"}>
+              Мы используем искусственный интеллект
+            </Typography>
+            <Typography variant={"bodyL"}>
+              Рекламодатели или блогеры, предложенные в вашем профиле, будут
+              подходить вам с точностью до 99%. Вам останется только выбрать
+              подходящего кандидата и начать сотрудничество с помощью всего
+              одной кнопки.
+            </Typography>
+          </div>
+          <div className={"relative h-[653px] w-[302px] bg-white"}>
+            <Image
+              className="z-40"
+              src={"/tmp/main_screen.png"}
+              alt="main screen"
+              fill
+            />
+          </div>
+        </div>
+
+        <div className="relative mt-[200px] flex h-[680px] w-full items-stretch justify-start gap-[157px]">
+          <div className="flex w-[540px] flex-col items-stretch justify-center gap-6">
+            <Typography variant={"headline1"}>
+              Мы способствуем прозрачности сделки{" "}
+            </Typography>
+            <Typography variant={"bodyL"}>
+              В нашем приложении вы можете заключить договор между сторонами и
+              регулировать сделку с помощью официального документа
+            </Typography>
+          </div>
+          <div
+            className={"absolute right-[184px] h-[653px] w-[302px] bg-white"}
           >
             <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              className="z-40"
+              src={"/tmp/project_screen_1.png"}
+              alt="main screen"
+              fill
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          </div>
+          <div
+            className={"absolute right-2 top-20 h-[653px] w-[302px] bg-white"}
           >
-            Read our docs
-          </a>
+            <Image
+              className="z-30"
+              src={"/tmp/project_screen_2.png"}
+              alt="main screen"
+              fill
+            />
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="mt-[200px] flex h-[680px] w-full items-stretch justify-start gap-[157px]">
+          <div className="flex w-[540px] flex-col items-stretch justify-center gap-6">
+            <Typography variant={"headline1"}>
+              Мы предлагаем чат с сохранением истории{" "}
+            </Typography>
+            <Typography variant={"bodyL"}>
+              Вам не нужно переходить из мессенджера в мессенджер. Теперь
+              чат прямо внутри приложения. Благодаря этому вы не теряете историю
+              сделки с партнёром и всегда можете найти нужную информацию
+            </Typography>
+          </div>
+          <div className={"relative h-[653px] w-[302px] bg-white"}>
+            <Image
+              className="z-40"
+              src={"/tmp/project_screen_3.png"}
+              alt="main screen"
+              fill
+            />
+          </div>
+        </div>
+        <div className="relative mt-[200px] flex h-[680px] w-full items-stretch justify-start gap-[157px]">
+          <div className="flex w-[540px] flex-col items-stretch justify-center gap-6">
+            <Typography variant={"headline1"}>
+              Мы экономим ваше время{" "}
+            </Typography>
+            <Typography variant={"bodyL"}>
+              Портфолио и проекты создаются за пару кликов. Теперь вся
+              необходимая информация, включая статистику блогеров, в одном
+              приложении. Вы можете редактировать свой профиль, добавлять новые
+              проекты и соцсети
+            </Typography>
+          </div>
+          <div
+            className={"absolute right-[184px] h-[653px] w-[302px] bg-white"}
+          >
+            <Image
+              className="z-40"
+              src={"/tmp/project_screen_2.png"}
+              alt="main screen"
+              fill
+            />
+          </div>
+          <div
+            className={"absolute right-0 top-20 h-[493px] w-[228px] bg-white"}
+          >
+            <Image
+              className="z-30"
+              src={"/tmp/project_screen_5.png"}
+              alt="main screen"
+              fill
+            />
+          </div>{" "}
+        </div>
+      </div>
+
+      {/* bloggers card */}
+      <div className="mx-auto mt-[120px] flex h-[658px] w-[1120px] flex-col items-stretch justify-between">
+        <div className="self-center rounded-[26px] bg-bg-accent-subduet-active px-6 pb-2 pt-1">
+          <Typography variant={"headline3"}>С нами сотрудничают</Typography>
+        </div>
+        <div className="z-50 flex w-full items-stretch justify-start gap-5">
+          <BloggerCard color="bg-lilac-600" />
+          <BloggerCard color="bg-teal-500" />
+          <BloggerCard color="bg-bg-accent-yellow" />
+        </div>
+      </div>
+      <ContentFooter />
     </div>
   );
 }
