@@ -7,6 +7,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 import ChevronRightButton from "../IconButtonChevronRIght";
+import { RegisterForm } from "../RegisterForm";
 
 type Props = {
   color?: string;
@@ -55,7 +56,7 @@ export const BloggerCard = ({ color = "bg-lilac-600" }: Props) => {
 
         {/* Back Card */}
         <motion.div
-          className="bg-bg-primary-inverse absolute inset-0 flex h-full w-full flex-col items-start justify-between gap-4 rounded-2xl p-8"
+          className="absolute inset-0 flex h-full w-full flex-col items-start justify-between gap-4 rounded-2xl bg-bg-primary-inverse p-8"
           style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }} // Initial rotation of the back side
         >
           <div className="flex flex-col items-stretch justify-start gap-6">
@@ -77,12 +78,14 @@ export const BloggerCard = ({ color = "bg-lilac-600" }: Props) => {
               </Typography>
             </div>
           </div>
-          <div className="flex w-full items-center justify-between">
-            <Typography variant={"bodyM"} className="text-bg-primary">
-              Зарегистрироваться
-            </Typography>
-            <ChevronRightButton />
-          </div>
+          <RegisterForm>
+            <div className="flex w-full items-center justify-between">
+              <Typography variant={"bodyM"} className="text-bg-primary">
+                Зарегистрироваться
+              </Typography>
+              <ChevronRightButton />
+            </div>
+          </RegisterForm>
         </motion.div>
       </motion.div>
     </motion.div>
