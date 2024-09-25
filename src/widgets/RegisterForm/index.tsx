@@ -10,6 +10,7 @@ import {
 import { Input } from "@/shared/ui/Input";
 import { Typography } from "@/shared/ui/Typography";
 import Image from "next/image";
+import Link from "next/link";
 import React, { ReactNode } from "react";
 
 type Props = {
@@ -19,7 +20,7 @@ type Props = {
 export const RegisterForm = ({ children }: Props) => {
   return (
     <Dialog>
-      <DialogTrigger className="z-50 h-full" asChild>
+      <DialogTrigger className="z-50" asChild>
         {children}
       </DialogTrigger>
       <DialogContent
@@ -32,25 +33,22 @@ export const RegisterForm = ({ children }: Props) => {
           bg-white
           p-[70px]
           pb-[80px]
-          pt-10
+          pt-20
         "
       >
+        <DialogClose className="absolute right-4 top-4 z-[100] ">
+          <IconClose />
+        </DialogClose>
         <DialogHeader className="relative">
           <Image
             src={"/tmp/form_cubes.png"}
             alt="form cubes"
             width={543}
             height={182}
-            className="absolute left-0 top-0 z-[60] min-h-[182px] min-w-[543px]"
+            className="absolute left-0 top-0 z-[60] min-h-[182px] max-w-[543px] -translate-x-16"
           />
           {/* TODO: handle the form cubes */}
 
-          <div className="mb-[20px] flex w-full items-center justify-end">
-            <div />
-            <DialogClose className="z-[100]">
-              <IconClose />
-            </DialogClose>
-          </div>
           <div className="flex flex-col items-stretch justify-start gap-2">
             <Typography className="text-center" variant={"headline2"}>
               Начать BOOST!
@@ -83,10 +81,12 @@ export const RegisterForm = ({ children }: Props) => {
             </Button>
             <Typography variant={"bodyS"}>
               Нажимая «Отправить», вы принимаете
-              <span className="text-text-accent-lilac hover:cursor-pointer">
-                {" "}
-                Соглашение на обработку персональных данных
-              </span>
+              <Link href={"/documentation"}>
+                <span className="text-text-accent-lilac hover:cursor-pointer">
+                  {" "}
+                  Соглашение на обработку персональных данных
+                </span>
+              </Link>
             </Typography>
           </div>
         </div>

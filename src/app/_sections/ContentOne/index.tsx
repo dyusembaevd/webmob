@@ -1,5 +1,6 @@
 import { Button } from "@/shared/ui/Button";
 import { Typography } from "@/shared/ui/Typography";
+import { RegisterForm } from "@/widgets/RegisterForm";
 import { SettingsCard } from "@/widgets/SettingsCard";
 import Image from "next/image";
 import React from "react";
@@ -29,7 +30,7 @@ export const ContentOne = () => {
         <div className="flex w-[789px] flex-col items-stretch justify-start gap-[6px] pt-[69px]">
           <Typography variant={"headline1"}>
             Новая{" "}
-            <span className="bg-bg-accent-subduet-active rounded-[26px] px-5">
+            <span className="rounded-[26px] bg-bg-accent-subduet-active px-5">
               платформа
             </span>{" "}
             для
@@ -44,26 +45,28 @@ export const ContentOne = () => {
           аните свой бизнес — просто размещайте свои проекты и визитки в нашем
           приложении, а дальше мы сделаем все за вас
         </Typography>
-        <Button variant={"secondary"} className="mt-10">
-          Узнать больше
-        </Button>
+        <RegisterForm>
+          <Button variant={"secondary"} className="mt-10">
+            Узнать больше
+          </Button>
+        </RegisterForm>
         <div className="absolute bottom-0 right-0 z-50">
           <SettingsCard />
         </div>
       </div>
       {/* Content_1_footer */}
-      <div className="bg-bg-primary-inverse relative z-0 mx-auto -mt-16 h-[488px] w-[1120px] rounded-[32px] px-[223px] pb-[169px] pt-[129px]">
+      <div className="relative z-0 mx-auto -mt-16 h-[488px] w-[1120px] rounded-[32px] bg-bg-primary-inverse px-[223px] pb-[169px] pt-[129px]">
         <img
           src="/tmp/insta_rotated.png"
           className="absolute right-[13%] top-[40%] h-[71px] w-[71px]"
         />
         <div className=" absolute left-28 top-56 h-[42px] w-[42px] rotate-12 rounded-[12px] bg-bg-accent opacity-70" />
-        <div className=" bg-bg-accent-yellow-secondary absolute bottom-12 left-16 h-24 w-24 rotate-45 rounded-[25px] opacity-70" />
+        <div className=" absolute bottom-12 left-16 h-24 w-24 rotate-45 rounded-[25px] bg-bg-accent-yellow-secondary opacity-70" />
 
         <div className="flex w-[674px] flex-col items-stretch justify-start gap-3">
           <Typography
             variant={"caption2"}
-            className="text-text-accent-lilac text-center"
+            className="text-center text-text-accent-lilac"
           >
             Наша миссия
           </Typography>
