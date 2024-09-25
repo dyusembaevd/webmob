@@ -201,13 +201,13 @@ const SectionOneContent = () => {
 const SectionTwoContent = () => {
   return (
     <div className="flex flex-col items-start justify-stretch gap-3">
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         2.1. Оператор собирает и хранит только те Персональные данные, которые
         необходимы для оказания (продвижения) услуг и/или товаров и
         взаимодействия с Пользователем.
       </Typography>
 
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         2.2. Персональные данные могут использоваться в следующих целях:
       </Typography>
 
@@ -267,7 +267,7 @@ const SectionTwoContent = () => {
         в иных целях, не противоречащих Законодательству.
       </Typography>
 
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         2.3. Оператор в том числе обрабатывает следующие данные:
       </Typography>
 
@@ -299,7 +299,7 @@ const SectionTwoContent = () => {
         номер телефона (в т. ч. мобильного);
       </Typography>
 
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         2.4. Пользователю запрещается указывать в приложении персональные данные
         третьих лиц (за исключением условия представления интересов этих лиц,
         имея документальное подтверждение третьих лиц на осуществление таких
@@ -312,19 +312,19 @@ const SectionTwoContent = () => {
 const SectionThreeContent = () => {
   return (
     <div className="flex flex-col items-start justify-stretch gap-3">
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         3.1. Оператор обязуется использовать Персональные данные в соответствии
         с Законом «О персональных данных» Республики Казахстан, Политикой и
         внутренними документами Оператора.
       </Typography>
 
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         3.2. В отношении Персональных данных и иных Данных Пользователя
         сохраняется их конфиденциальность, кроме случаев, когда указанные данные
         являются общедоступными.
       </Typography>
 
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         3.3. Оператор имеет право сохранять архивную копию Персональных данных.
       </Typography>
 
@@ -349,7 +349,7 @@ const SectionThreeContent = () => {
         Республики Казахстан.
       </Typography>
 
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         3.5. Оператор имеет право передавать Персональные данные и Данные
         третьим лицам, не указанным в пункте 3.4. Политики, в следующих случаях:
       </Typography>
@@ -371,7 +371,7 @@ const SectionThreeContent = () => {
         для оказания (продвижения) услуг и/или товаров;
       </Typography>
 
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         3.6. Оператор осуществляет автоматизированную обработку Персональных
         данных.
       </Typography>
@@ -381,13 +381,13 @@ const SectionThreeContent = () => {
 const SectionFourContent = () => {
   return (
     <div className="flex flex-col items-start justify-stretch gap-3">
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         4.1. Оператор осуществляет надлежащую защиту Персональных и иных данных
         в соответствии с Законодательством и принимает необходимые и достаточные
         организационные и технические меры для защиты Персональных данных.
       </Typography>
 
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         4.2. Применяемые меры защиты в том числе позволяют защитить Персональные
         данные от неправомерного или случайного доступа, уничтожения, изменения,
         блокирования, копирования, распространения, а также от иных
@@ -399,40 +399,40 @@ const SectionFourContent = () => {
 const SectionFiveContent = () => {
   return (
     <div className="flex flex-col items-start justify-stretch gap-3">
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         5.1. К Политике и отношениям между Пользователем и Оператором,
         возникающим в связи с применением Политики, подлежит применению право
         Республики Казахстан.
       </Typography>
 
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         5.2. Все возможные споры, вытекающие из настоящей Политики, подлежат
         разрешению в соответствии с Законодательством по месту регистрации
         Оператора.
       </Typography>
 
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         5.3. Перед обращением в суд Пользователь должен соблюсти обязательный
         досудебный порядок и направить Оператору соответствующую претензию в
         письменном виде. Срок ответа на претензию составляет 30 (тридцать)
         рабочих дней.
       </Typography>
 
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         5.4. Если по тем или иным причинам одно или несколько положений Политики
         будут признаны недействительными или не имеющими юридической силы, это
         не оказывает влияния на действительность или применимость остальных
         положений Политики.
       </Typography>
 
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         5.5. Оператор имеет право в любой момент изменять Политику
         конфиденциальности (полностью или в части) в одностороннем порядке без
         предварительного согласования с Пользователем. Все изменения вступают в
         силу с момента их размещения в приложении.
       </Typography>
 
-      <Typography>
+      <Typography variant={"bodyM"} className="font-bold">
         5.6. Пользователь обязуется самостоятельно следить за изменениями
         Политики конфиденциальности путём ознакомления с её актуальной
         редакцией.

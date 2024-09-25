@@ -10,6 +10,7 @@ import {
 import { Input } from "@/shared/ui/Input";
 import { Typography } from "@/shared/ui/Typography";
 import Image from "next/image";
+import Link from "next/link";
 import React, { ReactNode } from "react";
 
 type Props = {
@@ -80,10 +81,12 @@ export const RegisterForm = ({ children }: Props) => {
             </Button>
             <Typography variant={"bodyS"}>
               Нажимая «Отправить», вы принимаете
-              <span className="text-text-accent-lilac hover:cursor-pointer">
-                {" "}
-                Соглашение на обработку персональных данных
-              </span>
+              <Link href={"/documentation"}>
+                <span className="text-text-accent-lilac hover:cursor-pointer">
+                  {" "}
+                  Соглашение на обработку персональных данных
+                </span>
+              </Link>
             </Typography>
           </div>
         </div>
