@@ -1,9 +1,23 @@
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
   images: {
     remotePatterns: [
-      { protocol: "https", pathname: "**", hostname: "eventy.kz" },
+      { protocol: "https", pathname: "**", hostname: "inboost.kz" },
+      {
+        protocol: "https",
+        hostname: "s3-alpha-sig.figma.com",
+        pathname: "/img/**", // Allow images from Figma with this path
+      },
+      {
+        protocol: "http",
+        hostname: "5.35.107.65",
+        pathname: "**",
+      },
     ],
   },
   logging: {
@@ -42,4 +56,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

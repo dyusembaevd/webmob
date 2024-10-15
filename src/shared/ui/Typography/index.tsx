@@ -1,7 +1,13 @@
 import { cn } from "@/shared/utils/common";
 import { cva, type VariantProps } from "class-variance-authority";
+import { Roboto } from "next/font/google";
 import React from "react";
 
+const roboto = Roboto({
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
+  weight: ["400", "700", "900"],
+});
 const style = cva("", {
   variants: {
     variant: {
@@ -37,7 +43,7 @@ export const Typography: React.FC<TypographyProps> = ({
   const Component = as || "div";
 
   return (
-    <Component className={cn(style({ variant }), className)}>
+    <Component className={cn(style({ variant }), roboto.className, className)}>
       {children}
     </Component>
   );

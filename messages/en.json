@@ -1,0 +1,8 @@
+{
+  "time": {
+    "duration": {
+      "hour": "{count, plural, one {# hour} other {# hours}}",
+      "minute": "{count, plural, one {# minute} other {# minutes}}"
+    }
+  }
+}
