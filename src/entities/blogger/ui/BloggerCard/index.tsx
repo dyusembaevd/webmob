@@ -33,7 +33,7 @@ export const BloggerCard = ({ blogger }: Props) => {
         {blogger.avatar_url ? (
           <Image
             fill
-            className="rounded-[16px] object-cover"
+            className="rounded-[16px] object-cover object-top"
             src={blogger.avatar_url}
             alt=""
           />
