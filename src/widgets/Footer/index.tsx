@@ -8,9 +8,11 @@ export const Footer = () => {
       <div className="flex w-full items-center justify-center">
         <IconLogoFull />
       </div>
-      <Typography className="text-center text-[20px] font-semibold leading-[28px] text-[#8065FF]">
-        +7 778 000 18 80
-      </Typography>
+      <a href="tel:+77780001880">
+        <Typography className="text-center text-[20px] font-semibold leading-[28px] text-[#8065FF]">
+          +7 778 000 18 80
+        </Typography>
+      </a>
       <div className="flex flex-col items-stretch justify-start gap-4">
         <Typography className="text-center text-[16px] font-normal leading-[20.8px] text-white">
           Пользовательское соглашение
