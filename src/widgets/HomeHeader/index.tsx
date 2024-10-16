@@ -1,4 +1,4 @@
-import { BloggersSearchInput } from "@/features/BloggersSearch";
+import { BloggersSearchInput } from "@/features/bloggers";
 import { LanguageSwitcher } from "@/features/Language/ui/LanguageSwitcher";
 import { CitiesDrawer } from "@/features/profile/ui/CitiesDrawer";
 import IconLocation from "@/shared/assets/icons/icon_location.svg";

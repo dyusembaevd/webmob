@@ -21,6 +21,7 @@ export const LanguagesDrawer = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const params = useParams();
   const locale = useLocale();
+  console.log(locale);
 
   return (
     <div className="flex items-center gap-1">
@@ -40,8 +41,7 @@ export const LanguagesDrawer = ({ children }: { children: ReactNode }) => {
               <Button
                 onClick={() =>
                   router.replace(
-                    // @ts-expect-error
-                    { pathname, query: params as any },
+                    { pathname, params: params as Params },
                     { locale: "ru" },
                   )
                 }
@@ -57,8 +57,7 @@ export const LanguagesDrawer = ({ children }: { children: ReactNode }) => {
               <Button
                 onClick={() =>
                   router.replace(
-                    // @ts-expect-error
-                    { pathname, query: params as any },
+                    { pathname, params: params as Params },
                     { locale: "kz" },
                   )
                 }
@@ -73,8 +72,7 @@ export const LanguagesDrawer = ({ children }: { children: ReactNode }) => {
               <Button
                 onClick={() =>
                   router.replace(
-                    // @ts-expect-error
-                    { pathname, query: params as any },
+                    { pathname, params: params as Params },
                     { locale: "en" },
                   )
                 }

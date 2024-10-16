@@ -15,7 +15,7 @@ const nextConfig = {
       },
       {
         protocol: "http",
-        hostname: "5.35.107.65",
+        hostname: "5.35.107.18",
         pathname: "**",
       },
     ],

@@ -82,7 +82,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           <>
             {<span className="mr-2">{prefixIcon}</span>}
-            <Typography variant="caption2">{children}</Typography>
+            <Typography className="text-[16px] font-semibold leading-[22.4px]">
+              {children}
+            </Typography>
           </>
         )}
       </Comp>

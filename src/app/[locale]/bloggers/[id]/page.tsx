@@ -1,5 +1,6 @@
 "use client";
 
+import { config } from "@/config";
 import { Blogger } from "@/entities/blogger/types";
 import { CategoryBadge } from "@/entities/blogger/ui/CategoryBadge";
 import { Link, useRouter } from "@/navigation";
@@ -20,9 +21,7 @@ import React from "react";
 
 // Fetch function for a single blogger by ID
 const fetchBloggerById = async (id: string): Promise<Blogger> => {
-  const res = await fetch(
-    `http://5.35.107.65:8082/public/api/v1/influencers/mvp/${id}?lang=ru`,
-  );
+  const res = await fetch(`${config.API_BASE}/influencers/mvp/${id}?lang=ru`);
   if (!res.ok) {
     throw new Error("Failed to fetch blogger data");
   }
@@ -213,7 +212,7 @@ export default function BloggerByIdPage({
                   </Typography>
 
                   <Typography className="text-start text-[14px] font-semibold leading-[19.6px]">
-                    {data?.price ? `${data?.price} ₸` : "?"}
+                    {data?.price ? `${data?.price} ₸` : "Договорная"}
                   </Typography>
                 </div>
               </div>
@@ -227,7 +226,7 @@ export default function BloggerByIdPage({
                   </Typography>
 
                   <Typography className="text-start text-[14px] font-semibold leading-[19.6px]">
-                    {data?.price ? `${data?.price} ₸` : "?"}
+                    {data?.price ? `${data?.price} ₸` : "Договорная"}
                   </Typography>
                 </div>
               </div>

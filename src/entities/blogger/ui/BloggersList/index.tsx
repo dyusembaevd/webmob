@@ -1,5 +1,6 @@
 "use client";
 
+import { config } from "@/config";
 import { Skeleton } from "@/shared/ui/Skeleton";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -12,7 +13,7 @@ import { BloggerCard } from "../BloggerCard";
 const fetchBloggers = async ({ pageParam = 0 }): Promise<Blogger[]> => {
   console.log("Fetching bloggers with offset:", pageParam); // Debug log
   const res = await fetch(
-    `http://5.35.107.65:8082/public/api/v1/influencers/mvp?lang=ru&offset=${pageParam}&limit=10`,
+    `${config.API_BASE}/influencers/mvp?lang=ru&offset=${pageParam}&limit=10`,
   );
   if (!res.ok) {
     throw new Error("Failed to fetch bloggers");
