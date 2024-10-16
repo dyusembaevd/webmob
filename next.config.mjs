@@ -18,6 +18,11 @@ const nextConfig = {
         hostname: "inboost.kz",
         pathname: "**",
       },
+      {
+        protocol: "http",
+        hostname: "5.35.107.18",
+        pathname: "**",
+      },
     ],
   },
   logging: {
