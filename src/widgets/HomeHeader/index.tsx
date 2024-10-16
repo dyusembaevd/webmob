@@ -68,7 +68,7 @@ export const HomeHeader = () => {
         <div className="shrink ">
           <CitiesDrawer>
             <div className="group flex items-center gap-[2px] p-1">
-              <IconLocation className="h-4 w-4 group-hover:stroke-[#8065FF]" />
+              <IconLocation className="h-4 w-4 group-hover:stroke-[#8065FF] group-active:stroke-[#8065FF]" />
               <Typography
                 className={cn(
                   "text-[14px] font-semibold leading-[19.6px] text-white group-hover:text-[#8065FF] group-active:text-[#8065FF] ",
