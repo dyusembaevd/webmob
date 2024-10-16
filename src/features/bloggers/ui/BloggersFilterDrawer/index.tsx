@@ -73,6 +73,8 @@ export const BloggersFilterDrawer = ({ children }: { children: ReactNode }) => {
   const [selectedPriceType, setSelectedPriceType] = useState<string[]>(
     searchParams.get("price_type")?.split(",") || [],
   );
+  const [selectedAudience, setSelectedAudience] = useState<string[]>([]);
+
   const hasFilters =
     hasInstagram ||
     hasTiktok ||
@@ -81,7 +83,8 @@ export const BloggersFilterDrawer = ({ children }: { children: ReactNode }) => {
     selectedCity !== null ||
     selectedGender !== null ||
     selectedCategories.length > 0 ||
-    selectedPriceType.length > 0;
+    selectedPriceType.length > 0 ||
+    selectedAudience.length > 0;
 
   const toggleAgeSelection = (age: string) => {
     setSelectedAges((prevSelectedAges) =>
@@ -123,6 +126,14 @@ export const BloggersFilterDrawer = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  const toggleAudienceSelection = (audience: string) => {
+    setSelectedAudience(
+      (prevAudience) =>
+        prevAudience.includes(audience)
+          ? prevAudience.filter((a) => a !== audience)
+          : [audience], // Only one audience selection allowed
+    );
+  };
   const createQueryString = (name: string, value: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
     if (value) {
@@ -141,17 +152,9 @@ export const BloggersFilterDrawer = ({ children }: { children: ReactNode }) => {
     setSelectedCity(null);
     setSelectedGender(null);
     setSelectedCategories([]);
-
     setSelectedPriceType([]);
+    setSelectedAudience([]);
     router.replace("/", undefined);
-    // router.push(`?${createQueryString("has_instagram", null)}`);
-    // router.push(`?${createQueryString("has_tiktok", null)}`);
-    // router.push(`?${createQueryString("age", null)}`);
-    // router.push(`?${createQueryString("content_language", null)}`);
-    // router.push(`?${createQueryString("city_id", null)}`);
-    // router.push(`?${createQueryString("gender", null)}`);
-    // router.push(`?${createQueryString("category_id", null)}`);
-    // router.push(`?${createQueryString("price_type", null)}`);
   };
 
   const handleApply = () => {
@@ -170,6 +173,29 @@ export const BloggersFilterDrawer = ({ children }: { children: ReactNode }) => {
       updatedParams.set("category_id", selectedCategories.join(","));
     if (selectedPriceType.length > 0)
       updatedParams.set("price_type", selectedPriceType.join(","));
+    if (selectedAudience.length > 0) {
+      const audienceRange = selectedAudience[0];
+      const [fromStr, toStr] = audienceRange.split("-");
+      const followersFrom = fromStr.endsWith("k")
+        ? parseInt(fromStr) * 1000
+        : fromStr.endsWith("m")
+          ? parseInt(fromStr) * 1000000
+          : parseInt(fromStr);
+      const followersTo = toStr.endsWith("k")
+        ? parseInt(toStr) * 1000
+        : toStr.endsWith("m")
+          ? parseInt(toStr) * 1000000
+          : parseInt(toStr);
+
+      if (hasInstagram || (!hasTiktok && !hasInstagram)) {
+        updatedParams.set("instagram_followers_from", followersFrom.toString());
+        updatedParams.set("instagram_followers_to", followersTo.toString());
+      }
+      if (hasTiktok || (!hasTiktok && !hasInstagram)) {
+        updatedParams.set("tiktok_followers_from", followersFrom.toString());
+        updatedParams.set("tiktok_followers_to", followersTo.toString());
+      }
+    }
 
     router.push(`?${updatedParams.toString()}`);
   };
@@ -330,6 +356,33 @@ export const BloggersFilterDrawer = ({ children }: { children: ReactNode }) => {
                 ))}
               </div>
             </div>
+            {(hasInstagram || hasTiktok || (!hasInstagram && !hasTiktok)) && (
+              <div className="mt-6 flex w-full flex-col items-stretch justify-start gap-2">
+                <Typography className="mb-3 text-[18px] font-semibold leading-[25.2px]">
+                  Аудитория подписчиков
+                </Typography>
+                <div className="flex items-center justify-start gap-2">
+                  {["500-10k", "10k-50k", "50k-250k", "250k-1m"].map(
+                    (audience) => (
+                      <div
+                        key={audience}
+                        className={`cursor-pointer rounded-[16px] border-[1px] border-black px-3 py-[7px] ${
+                          selectedAudience.includes(audience)
+                            ? "bg-black text-white"
+                            : " bg-white text-black"
+                        }`}
+                        onClick={() => toggleAudienceSelection(audience)}
+                      >
+                        <Typography className="text-[13px] font-medium leading-[18.2px]">
+                          {audience}
+                        </Typography>
+                      </div>
+                    ),
+                  )}
+                </div>
+              </div>
+            )}
+
             <div className="mt-6 flex w-full flex-col items-stretch justify-start gap-2">
               <Typography className="mb-3 text-[18px] font-semibold leading-[25.2px]">
                 Возраст аудитории

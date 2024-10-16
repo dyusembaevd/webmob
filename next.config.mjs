@@ -9,33 +9,8 @@ const nextConfig = {
     remotePatterns: [
       { protocol: "https", pathname: "**", hostname: "inboost.kz" },
       {
-        protocol: "https",
-        hostname: "s3-alpha-sig.figma.com",
-        pathname: "/img/**", // Allow images from Figma with this path
-      },
-      {
-        protocol: "https",
+        protocol: "http",
         hostname: "inboost.kz",
-        pathname: "**",
-      },
-      {
-        protocol: "http",
-        hostname: "5.35.107.18",
-        pathname: "**",
-      },
-      {
-        protocol: "http",
-        hostname: "5.35.107.65",
-        pathname: "**",
-      },
-      {
-        protocol: "http",
-        hostname: "5.35.107.65:8082",
-        pathname: "**",
-      },
-      {
-        protocol: "http",
-        hostname: "5.35.107.18:8082",
         pathname: "**",
       },
     ],
