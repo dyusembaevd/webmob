@@ -1,19 +1,53 @@
+"use client";
+
+import { config } from "@/config";
 import { BloggersSearchInput } from "@/features/bloggers";
 import { LanguageSwitcher } from "@/features/Language/ui/LanguageSwitcher";
 import { CitiesDrawer } from "@/features/profile/ui/CitiesDrawer";
 import IconLocation from "@/shared/assets/icons/icon_location.svg";
 import { Typography } from "@/shared/ui/Typography";
 import { cn } from "@/shared/utils/common";
+import { useQuery } from "@tanstack/react-query";
 import { Roboto } from "next/font/google";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import React from "react";
+
+interface City {
+  id: number;
+  slug: string;
+  name: string;
+}
+
+const getCities = async ({
+  locale = "ru",
+}: {
+  locale: "ru" | "kz" | "en";
+}): Promise<City[]> => {
+  const response = await fetch(`${config.API_BASE}/cities?lang=${locale}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch cities");
+  }
+  return response.json();
+};
 
 const roboto = Roboto({
   subsets: ["latin", "cyrillic"],
   display: "swap",
   weight: ["400", "700", "900"],
 });
-export const HomeHeader = async () => {
+
+export const HomeHeader = () => {
+  const searchParams = useSearchParams();
+  const cityId = searchParams.get("city_id") ?? "1";
+
+  const { data: citiesData } = useQuery<City[]>({
+    queryKey: ["cities"],
+    queryFn: () => getCities({ locale: "ru" }),
+  });
+
+  const currentCity = citiesData?.find((city) => city.id.toString() === cityId);
+
   return (
     <div className=" flex w-full flex-col items-stretch justify-start gap-5 rounded-b-[32px] bg-[#171719] p-5">
       <div className="flex w-full items-center justify-start py-[5px]">
@@ -41,7 +75,7 @@ export const HomeHeader = async () => {
                   roboto.className,
                 )}
               >
-                Астана
+                {currentCity ? currentCity.name : "Астана"}
               </Typography>
             </div>
           </CitiesDrawer>

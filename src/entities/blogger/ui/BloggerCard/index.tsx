@@ -107,7 +107,7 @@ export const BloggerCard = ({ blogger }: Props) => {
               Стоимость услуг
             </Typography>
             <Typography className="text-[18px] font-semibold leading-[25.2px] text-[#171719]">
-              {blogger.price ? `от ${blogger.price} ₸` : "?"}
+              {blogger.price ? `от ${blogger.price} ₸` : "Договорная"}
             </Typography>
           </div>
         </div>
