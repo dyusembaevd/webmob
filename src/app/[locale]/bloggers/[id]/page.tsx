@@ -107,7 +107,7 @@ export default function BloggerByIdPage({
                 : "?"}{" "}
               подписчиков
             </Typography>
-            <ReadMore text="Делаю обзоры косметических средств казахстанских брендов. Нативная реклама, всегда интересно преподношу подписчикам товар" />
+            <ReadMore text={data?.description ?? ""} />
             <div className="mt-3 flex max-h-6 w-full items-stretch justify-start gap-2">
               <div className="flex items-center justify-start gap-1">
                 {data?.instagram ? (

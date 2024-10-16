@@ -4,6 +4,7 @@ export const mockBlogger: Blogger = {
   guid: "b256239e-0d03-4889-a82c-061a31c55112",
   user_guid: "a30a847c-462e-468c-9367-f203085fd1a2",
   phone: "+73231231231",
+  description: "mock",
   status: "created", // Adjust this if needed, e.g., 'active', 'inactive'
   first_name: "Улжан",
   last_name: "Умарова", // Empty string or null, depending on your use case

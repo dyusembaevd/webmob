@@ -4,6 +4,7 @@ export interface Blogger {
   phone: string;
   status: "created" | "active" | "inactive" | "deleted";
   first_name: string;
+  description: string | null;
   last_name: string | null;
   patronymic: string | null;
   birthdate: string | null;
