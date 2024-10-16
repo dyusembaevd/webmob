@@ -14,6 +14,7 @@ import {
   DrawerTrigger,
 } from "@/shared/ui/Drawer";
 import { Typography } from "@/shared/ui/Typography";
+import { cn } from "@/shared/utils/common";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { ReactNode, useState } from "react";
@@ -72,6 +73,15 @@ export const BloggersFilterDrawer = ({ children }: { children: ReactNode }) => {
   const [selectedPriceType, setSelectedPriceType] = useState<string[]>(
     searchParams.get("price_type")?.split(",") || [],
   );
+  const hasFilters =
+    hasInstagram ||
+    hasTiktok ||
+    selectedAges.length > 0 ||
+    selectedLanguages.length > 0 ||
+    selectedCity !== null ||
+    selectedGender !== null ||
+    selectedCategories.length > 0 ||
+    selectedPriceType.length > 0;
 
   const toggleAgeSelection = (age: string) => {
     setSelectedAges((prevSelectedAges) =>
@@ -391,18 +401,28 @@ export const BloggersFilterDrawer = ({ children }: { children: ReactNode }) => {
               </div>
             </div>
           </div>
-          <div className="absolute bottom-0 flex w-full flex-nowrap justify-between bg-white px-5 pb-5">
+          <div className="absolute bottom-0 flex w-full flex-nowrap justify-evenly gap-2 bg-white px-5 pb-5">
             <DrawerClose asChild>
               <Button
                 variant={"ghost"}
-                className="border border-[#17171966] text-[16px] font-semibold"
+                className="flex-1 border border-[#17171966] text-[16px] font-semibold"
                 onClick={handleReset}
               >
                 Сбросить
               </Button>
             </DrawerClose>
             <DrawerClose asChild>
-              <Button className="bg-[#8065FF] text-white" onClick={handleApply}>
+              <Button
+                className={cn(
+                  "text-white",
+                  !hasFilters &&
+                    "flex-1 cursor-not-allowed bg-[#171719] bg-opacity-[0.08] text-[#17171966]",
+                  hasFilters && "flex-1 bg-[#8065FF]",
+                )}
+                onClick={handleApply}
+                disabled={!hasFilters}
+              >
+                {" "}
                 Применить
               </Button>
             </DrawerClose>
