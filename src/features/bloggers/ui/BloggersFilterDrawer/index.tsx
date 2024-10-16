@@ -19,15 +19,22 @@ export const BloggersFilterDrawer = ({ children }: { children: ReactNode }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // State for filters
   const [hasInstagram, setHasInstagram] = useState<boolean>(
     searchParams.get("has_instagram") === "true",
   );
   const [hasTiktok, setHasTiktok] = useState<boolean>(
     searchParams.get("has_tiktok") === "true",
   );
-
-  // Helper function to create updated query strings
+  const [selectedAges, setSelectedAges] = useState<string[]>(
+    searchParams.get("age")?.split(",") || [],
+  );
+  const toggleAgeSelection = (age: string) => {
+    setSelectedAges((prevSelectedAges) =>
+      prevSelectedAges.includes(age)
+        ? prevSelectedAges.filter((a) => a !== age)
+        : [...prevSelectedAges, age],
+    );
+  };
   const createQueryString = (name: string, value: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
     if (value) {
@@ -38,20 +45,22 @@ export const BloggersFilterDrawer = ({ children }: { children: ReactNode }) => {
     return params.toString();
   };
 
-  // Handle the reset of filters
   const handleReset = () => {
     setHasInstagram(false);
     setHasTiktok(false);
+    setSelectedAges([]);
     router.push(`?${createQueryString("has_instagram", null)}`);
     router.push(`?${createQueryString("has_tiktok", null)}`);
+    router.push(`?${createQueryString("age", null)}`);
   };
 
-  // Handle the application of filters
   const handleApply = () => {
     let updatedParams = new URLSearchParams();
 
     if (hasInstagram) updatedParams.set("has_instagram", "true");
     if (hasTiktok) updatedParams.set("has_tiktok", "true");
+    if (selectedAges.length > 0)
+      updatedParams.set("age", selectedAges.join(","));
 
     router.push(`?${updatedParams.toString()}`);
   };
@@ -111,6 +120,28 @@ export const BloggersFilterDrawer = ({ children }: { children: ReactNode }) => {
                 <Typography className="text-[16px] leading-[20.8px]">
                   Tiktok
                 </Typography>
+              </div>
+            </div>
+            <div className="flex w-full flex-col items-stretch justify-start gap-2">
+              <Typography className="text-[18px] font-semibold leading-[25.2px]">
+                Возраст аудитории
+              </Typography>
+              <div className="flex items-center justify-start gap-2">
+                {["18-24", "25-34", "35-44", "45-54"].map((age) => (
+                  <div
+                    key={age}
+                    className={`cursor-pointer rounded-[16px] px-3 py-[7px] ${
+                      selectedAges.includes(age)
+                        ? "bg-black text-white"
+                        : "border-[1px] border-black bg-white text-black"
+                    }`}
+                    onClick={() => toggleAgeSelection(age)}
+                  >
+                    <Typography className="text-[13px] font-medium leading-[18.2px]">
+                      {age}
+                    </Typography>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

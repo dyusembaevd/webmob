@@ -46,7 +46,7 @@ export default function BloggerByIdPage({
   if (isLoading) return <div>Loading...</div>;
 
   // Error state
-  if (error) return <div>Error loading blogger data</div>;
+  if (error || !data) return <div>Error loading blogger data</div>;
 
   // Display the blogger's data
   return (
@@ -70,12 +70,14 @@ export default function BloggerByIdPage({
             <IconFavorite />
           </button>
         </div>
-        <Image
-          src={data?.avatar_url ?? ""}
-          fill
-          alt=""
-          className="rounded-b-[32px] object-cover"
-        />
+        {data.avatar_url && (
+          <Image
+            src={data.avatar_url}
+            fill
+            alt=""
+            className="rounded-b-[32px] object-cover object-top"
+          />
+        )}
       </div>
       <div className="flex min-h-[100dvh] w-full flex-col items-stretch justify-start gap-4 overflow-hidden bg-[#1717190A] px-5 pt-4">
         <div className="-mx-5 flex items-stretch justify-start gap-1 overflow-x-auto px-5">
