@@ -41,6 +41,7 @@ export default function BloggerByIdPage({
     queryFn: () => fetchBloggerById(params.id), // Fetcher function
     enabled: !!params.id, // Only run the query if there's a valid ID
   });
+  console.log(data);
 
   // Loading state
   if (isLoading) return <div>Loading...</div>;

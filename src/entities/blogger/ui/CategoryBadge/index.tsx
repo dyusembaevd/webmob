@@ -8,7 +8,7 @@ export const CategoryBadge = ({ color, id, name }: Category) => {
   const textColor = getTextColorBasedOnBackground(color);
   return (
     <div
-      className={`flex items-center justify-center rounded-[16px] bg-[${color ?? "#000000"}] px-3 py-1 `}
+      className={`flex items-center justify-center rounded-[16px] bg-[#000000] px-3 py-1 `}
     >
       <Typography
         key={id}
