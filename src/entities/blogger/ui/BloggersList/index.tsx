@@ -3,26 +3,48 @@
 import { config } from "@/config";
 import { Skeleton } from "@/shared/ui/Skeleton";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useLocale } from "next-intl";
 import Image from "next/image";
-import React, { useCallback, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 
 import { Blogger } from "../../types";
 import { BloggerCard } from "../BloggerCard";
 
-// Define the fetch function with proper typing
-const fetchBloggers = async ({ pageParam = 0 }): Promise<Blogger[]> => {
-  console.log("Fetching bloggers with offset:", pageParam); // Debug log
-  const res = await fetch(
-    `${config.API_BASE}/influencers/mvp?lang=ru&offset=${pageParam}&limit=10`,
-  );
+const fetchBloggers = async ({
+  pageParam = 0,
+  locale,
+  params,
+}: {
+  pageParam: number;
+  locale: string;
+  params: Record<string, string>;
+}): Promise<Blogger[]> => {
+  const queryParams = new URLSearchParams({
+    lang: locale,
+    offset: pageParam.toString(),
+    limit: "10",
+    ...params,
+  }).toString();
+
+  const res = await fetch(`${config.API_BASE}/influencers/mvp?${queryParams}`);
+
   if (!res.ok) {
     throw new Error("Failed to fetch bloggers");
   }
-  const data: Blogger[] = await res.json(); // Parse the response and ensure it's an array of Blogger objects
+  const data: Blogger[] = await res.json();
   return data;
 };
 
 export const BloggersList = () => {
+  const searchParams = useSearchParams();
+  const locale = useLocale();
+
+  const paramsObj = useMemo(() => {
+    const entries = searchParams.entries();
+    return Object.fromEntries(entries);
+  }, [searchParams]);
+
   const {
     data,
     fetchNextPage,
@@ -31,15 +53,15 @@ export const BloggersList = () => {
     isLoading,
     error,
   } = useInfiniteQuery({
-    queryKey: ["bloggers"],
-    queryFn: fetchBloggers,
+    queryKey: ["bloggers", locale, paramsObj],
+    queryFn: ({ pageParam = 0 }) =>
+      fetchBloggers({ pageParam, locale, params: paramsObj }),
     getNextPageParam: (lastPage, pages) => {
-      if (lastPage.length < 10) return undefined; // No more pages if less than 10 bloggers
-      return pages.length * 10; // Calculate the next offset based on the current number of pages
+      if (lastPage.length < 10) return undefined;
+      return pages.length * 10;
     },
     initialPageParam: 0,
   });
-  console.log("DATA", data);
 
   const observerElemRef = useRef<HTMLDivElement | null>(null);
 
@@ -47,7 +69,6 @@ export const BloggersList = () => {
     (entries: IntersectionObserverEntry[]) => {
       const [target] = entries;
       if (target.isIntersecting && hasNextPage && !isFetchingNextPage) {
-        console.log("Fetching next page..."); // Debug log
         fetchNextPage();
       }
     },
@@ -90,7 +111,7 @@ export const BloggersList = () => {
       )}
       <div ref={observerElemRef} />
       {isFetchingNextPage && (
-        <div className="flex w-full items-center justify-center bg-red-400">
+        <div className="flex w-full items-center justify-center">
           <Image
             quality={100}
             className="animate-spin"

@@ -8,7 +8,7 @@ export default function Home() {
     <div className="flex w-full flex-col ">
       <HomeHeader />
       <div
-        className="min-h-[100dvh] w-full bg-[#1717190A] pt-4
+        className="min-h-[calc(100dvh-300px)] w-full bg-[#1717190A] pt-4
       "
       >
         <BloggersList />
