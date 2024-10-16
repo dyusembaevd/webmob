@@ -34,7 +34,7 @@ COPY --from=builder /app/package.json ./package.json
 # Expose the port the app runs on
 EXPOSE 3000
 
-ENV API_BASE=https://inboost.kz
-ENV BASE_URL=https://inboost.kz
+ENV NEXT_PUBLIC_API_BASE=https://inboost.kz
+ENV NEXT_PUBLIC_BASE_URL=https://inboost.kz
 # Start the Next.js application
 CMD ["yarn", "start"]
