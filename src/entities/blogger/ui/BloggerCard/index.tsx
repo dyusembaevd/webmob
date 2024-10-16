@@ -1,5 +1,6 @@
 "use client";
 
+import IconFavorite from "@/features/bloggers/ui/IconFavorite";
 import { useRouter } from "@/navigation";
 import IconInstagram from "@/shared/assets/icons/icon_instagram_filled.svg";
 import IconTiktok from "@/shared/assets/icons/icon_tiktok_filled.svg";
@@ -7,7 +8,7 @@ import { Typography } from "@/shared/ui/Typography";
 import { cn } from "@/shared/utils/common";
 import { formatFullName } from "@/shared/utils/formatters";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 import { Blogger } from "../../types";
 import { CategoryBadge } from "../CategoryBadge";
@@ -18,6 +19,7 @@ type Props = {
 
 export const BloggerCard = ({ blogger }: Props) => {
   const router = useRouter();
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleClick = () => {
     router.push(`/bloggers/${blogger.guid}` as any);
@@ -38,11 +40,31 @@ export const BloggerCard = ({ blogger }: Props) => {
             alt=""
           />
         ) : null}
+        <button
+          onClick={(e: any) => {
+            e.stopPropagation();
+            setIsFavorite(!isFavorite);
+          }}
+          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-lg bg-[#FFFFFF66] backdrop-blur-2xl"
+          style={{ backdropFilter: "blur(0.1px)", background: "#FFFFFF66" }}
+        >
+          <IconFavorite
+            filled={isFavorite}
+            className={`${
+              isFavorite ? "scale-110 text-white" : "scale-100 text-gray-500"
+            }`}
+          />
+        </button>
       </div>
       <div className="-mx-4 flex items-stretch justify-start gap-1 overflow-x-auto px-4">
         {blogger.categories && blogger.categories?.length > 0
           ? blogger.categories?.map((item) => (
-              <CategoryBadge id={item.id} color={item.color} name={item.name} />
+              <CategoryBadge
+                key={item.id}
+                id={item.id}
+                color={item.color}
+                name={item.name}
+              />
             ))
           : null}
         {/* <Typography className="rounded-[16px] bg-[#FEC90124] px-3 py-1 text-[13px] font-normal leading-[18.2px] text-[#FF7A00E0]">

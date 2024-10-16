@@ -210,7 +210,9 @@ export const BloggersFilterDrawer = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex items-center gap-1">
       <Drawer>
-        <DrawerTrigger>{children}</DrawerTrigger>
+        <DrawerTrigger className="flex items-center justify-center">
+          {children}
+        </DrawerTrigger>
         <DrawerContent>
           <div
             style={{ height: "calc(100dvh-48px)" }}

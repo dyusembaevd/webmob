@@ -14,7 +14,7 @@ export const BloggersSearchInput = () => {
       />
       <div className="absolute right-[14px] flex h-[32px] w-[32px] items-center justify-center rounded-[12px] bg-[#E0F97BE0]">
         <BloggersFilterDrawer>
-          <IconFilter />
+          <IconFilter className="h-4 w-4" />
         </BloggersFilterDrawer>
       </div>
     </div>

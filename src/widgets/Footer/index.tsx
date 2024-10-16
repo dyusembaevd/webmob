@@ -1,3 +1,4 @@
+import { Link } from "@/navigation";
 import IconLogoFull from "@/shared/assets/icons/icon_logo_full.svg";
 import { Typography } from "@/shared/ui/Typography";
 import React from "react";
@@ -14,12 +15,16 @@ export const Footer = () => {
         </Typography>
       </a>
       <div className="flex flex-col items-stretch justify-start gap-4">
-        <Typography className="text-center text-[16px] font-normal leading-[20.8px] text-white">
-          Пользовательское соглашение
-        </Typography>
-        <Typography className="text-center text-[16px] font-normal leading-[20.8px] text-white">
-          Политика конфиденциальности
-        </Typography>
+        <Link href={"/user-agreement"}>
+          <Typography className="text-center text-[16px] font-normal leading-[20.8px] text-white">
+            Пользовательское соглашение
+          </Typography>
+        </Link>
+        <Link href={"/nda"}>
+          <Typography className="text-center text-[16px] font-normal leading-[20.8px] text-white">
+            Политика конфиденциальности
+          </Typography>
+        </Link>
       </div>
       <Typography className="text-center text-[12px] font-normal leading-[15.6px] text-white">
         ©2024 ИП “InBOOST”

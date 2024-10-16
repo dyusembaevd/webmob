@@ -3,21 +3,23 @@
 import { config } from "@/config";
 import { Blogger } from "@/entities/blogger/types";
 import { CategoryBadge } from "@/entities/blogger/ui/CategoryBadge";
+import IconFavorite from "@/features/bloggers/ui/IconFavorite";
 import { Link, useRouter } from "@/navigation";
 import IconArrowL from "@/shared/assets/icons/icon_arrow-l.svg";
 import IconArrowR from "@/shared/assets/icons/icon_arrow-r.svg";
-import IconFavorite from "@/shared/assets/icons/icon_favorite.svg";
 import IconInstagram from "@/shared/assets/icons/icon_instagram_filled.svg";
 import IconStatistics from "@/shared/assets/icons/icon_statistics_dark.svg";
 import IconTiktok from "@/shared/assets/icons/icon_tiktok_filled.svg";
 import IconWallet from "@/shared/assets/icons/icon_wallet.svg";
+import { Button } from "@/shared/ui/Button";
 import { ReadMore } from "@/shared/ui/ReadMore";
 import { Typography } from "@/shared/ui/Typography";
+import { cn } from "@/shared/utils/common";
 import { formatFullName } from "@/shared/utils/formatters";
 import { Footer } from "@/widgets/Footer";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 // Fetch function for a single blogger by ID
 const fetchBloggerById = async (id: string): Promise<Blogger> => {
@@ -35,25 +37,18 @@ export default function BloggerByIdPage({
   params: { id: string };
 }) {
   const router = useRouter();
-  // Use React Query's `useQuery` hook to fetch blogger data
   const { data, isLoading, error } = useQuery({
-    queryKey: ["blogger", params.id], // Unique query key based on the blogger's ID
-    queryFn: () => fetchBloggerById(params.id), // Fetcher function
-    enabled: !!params.id, // Only run the query if there's a valid ID
+    queryKey: ["blogger", params.id],
+    queryFn: () => fetchBloggerById(params.id),
+    enabled: !!params.id,
   });
-  console.log(data);
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  // Loading state
   if (isLoading) return <div>Loading...</div>;
 
-  // Error state
   if (error || !data) return <div>Error loading blogger data</div>;
 
-  // Display the blogger's data
   return (
-    // <div className="container mx-auto p-4">
-    //   <h1 className="mb-4 text-xl font-bold">Blogger Data</h1>
-    // </div>
     <div className="flex w-full flex-col ">
       <div className="relative flex h-[280px] w-full flex-col items-stretch justify-start gap-5 rounded-b-[32px] bg-[#171719] p-5">
         <div className="absolute left-0 top-5 z-40 flex w-full items-center justify-between px-5">
@@ -65,10 +60,16 @@ export default function BloggerByIdPage({
             <IconArrowL />
           </button>
           <button
-            className=" flex h-8 w-8 items-center justify-center rounded-lg bg-[#FFFFFF66] backdrop-blur-2xl"
+            onClick={() => setIsFavorite(!isFavorite)}
+            className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FFFFFF66] backdrop-blur-2xl"
             style={{ backdropFilter: "blur(0.1px)", background: "#FFFFFF66" }}
           >
-            <IconFavorite />
+            <IconFavorite
+              filled={isFavorite}
+              className={`${
+                isFavorite ? "scale-110 text-white" : "scale-100 text-gray-500"
+              }`}
+            />
           </button>
         </div>
         {data.avatar_url && (
@@ -85,6 +86,7 @@ export default function BloggerByIdPage({
           {data?.categories && data?.categories?.length > 0
             ? data?.categories?.map((item) => (
                 <CategoryBadge
+                  key={item.id}
                   id={item.id}
                   color={item.color}
                   name={item.name}
@@ -145,14 +147,7 @@ export default function BloggerByIdPage({
               </Typography>
             </div>
           </div>
-          <div className="flex w-full flex-col items-stretch justify-start gap-2">
-            <Typography className="text-[18px] font-semibold leading-[25.2px]">
-              Тип блога
-            </Typography>
-            <Typography className="text-[16px] leading-[20.8px]">
-              Блог
-            </Typography>
-          </div>
+
           <div className="flex w-full flex-col items-stretch justify-start gap-2">
             <Typography className="text-[18px] font-semibold leading-[25.2px]">
               Ссылки на социальные сети
@@ -253,6 +248,12 @@ export default function BloggerByIdPage({
         </div>
       </div>
       <Footer />
+      <div className="fixed bottom-5 w-full px-5">
+        <Button className={cn("w-full text-white", "flex-1 bg-[#8065FF]")}>
+          {" "}
+          Связаться
+        </Button>
+      </div>
     </div>
   );
 }
