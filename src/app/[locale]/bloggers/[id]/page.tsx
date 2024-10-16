@@ -156,24 +156,26 @@ export default function BloggerByIdPage({
             <Typography className="text-[18px] font-semibold leading-[25.2px]">
               Ссылки на социальные сети
             </Typography>
-            <Typography className="text-[16px] leading-[20.8px]">
-              {data?.instagram ? (
+            {data?.instagram ? (
+              <Typography className="text-[16px] leading-[20.8px]">
                 <Link
-                  className="text-[#8065FF]"
+                  className="block text-[#8065FF]"
                   href={`https://www.instagram.com/${data.instagram}` as any}
                 >
                   Instagram
                 </Link>
-              ) : null}
-              {data?.tiktok ? (
+              </Typography>
+            ) : null}
+            {data?.tiktok ? (
+              <Typography className="text-[16px] leading-[20.8px]">
                 <Link
-                  className="text-[#8065FF]"
+                  className="block text-[#8065FF]"
                   href={`https://www.tiktok.com/${data.tiktok}` as any}
                 >
                   Tiktok
                 </Link>
-              ) : null}
-            </Typography>
+              </Typography>
+            ) : null}
           </div>
           <div className="flex w-full flex-col items-stretch justify-start gap-2">
             <Typography className="text-[18px] font-semibold leading-[25.2px]">

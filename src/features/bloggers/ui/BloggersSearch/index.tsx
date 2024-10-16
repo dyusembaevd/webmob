@@ -9,6 +9,7 @@ export const BloggersSearchInput = () => {
       <input
         type="text"
         placeholder="Найти"
+        tabIndex={0}
         className="placeholder-white::placeholder h-[40px] w-[220px] bg-transparent text-white focus:outline-none"
       />
       <div className="absolute right-[14px] flex h-[32px] w-[32px] items-center justify-center rounded-[12px] bg-[#E0F97BE0]">
