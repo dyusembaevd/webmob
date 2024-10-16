@@ -14,8 +14,8 @@ const nextConfig = {
         pathname: "/img/**", // Allow images from Figma with this path
       },
       {
-        protocol: "http",
-        hostname: "localhost",
+        protocol: "https",
+        hostname: "inboost.kz",
         pathname: "**",
       },
     ],
