@@ -8,7 +8,6 @@ import IconLocation from "@/shared/assets/icons/icon_location.svg";
 import { Typography } from "@/shared/ui/Typography";
 import { cn } from "@/shared/utils/common";
 import { useQuery } from "@tanstack/react-query";
-import { Roboto } from "next/font/google";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React from "react";
@@ -31,12 +30,6 @@ const getCities = async ({
   return response.json();
 };
 
-const roboto = Roboto({
-  subsets: ["latin", "cyrillic"],
-  display: "swap",
-  weight: ["400", "700", "900"],
-});
-
 export const HomeHeader = () => {
   const searchParams = useSearchParams();
   const cityId = searchParams.get("city_id") ?? "1";
@@ -56,7 +49,6 @@ export const HomeHeader = () => {
           <Typography
             className={cn(
               "text-[16px] font-semibold leading-[22.4px] text-white",
-              roboto.className,
             )}
           >
             Invictus Go
@@ -72,7 +64,6 @@ export const HomeHeader = () => {
               <Typography
                 className={cn(
                   "text-[14px] font-semibold leading-[19.6px] text-white group-hover:text-[#8065FF] group-active:text-[#8065FF] ",
-                  roboto.className,
                 )}
               >
                 {currentCity ? currentCity.name : "Астана"}
@@ -85,7 +76,6 @@ export const HomeHeader = () => {
         <Typography
           className={cn(
             "whitespace-nowrap text-[32px] font-extrabold leading-[38.4px] text-white",
-            roboto.className,
           )}
         >
           Простой поиск
@@ -95,7 +85,6 @@ export const HomeHeader = () => {
           <Typography
             className={cn(
               "whitespace-nowrap text-[32px] font-extrabold leading-[38.4px] text-white",
-              roboto.className,
             )}
           >
             блогеров для
@@ -104,7 +93,6 @@ export const HomeHeader = () => {
         <Typography
           className={cn(
             "whitespace-nowrap text-[32px] font-extrabold leading-[38.4px] text-white",
-            roboto.className,
           )}
         >
           сотрудничества

@@ -3,7 +3,6 @@
 import { Typography } from "@/shared/ui/Typography";
 import { cn } from "@/shared/utils/common";
 import { useLocale } from "next-intl";
-import { Roboto } from "next/font/google";
 
 import { LanguagesDrawer } from "../LanguageDrawer";
 

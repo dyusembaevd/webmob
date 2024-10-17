@@ -4,6 +4,7 @@ import { config } from "@/config";
 import { Blogger } from "@/entities/blogger/types";
 import { CategoryBadge } from "@/entities/blogger/ui/CategoryBadge";
 import IconFavorite from "@/features/bloggers/ui/IconFavorite";
+import { City } from "@/features/profile/types";
 import { Link, useRouter } from "@/navigation";
 import IconArrowL from "@/shared/assets/icons/icon_arrow-l.svg";
 import IconArrowR from "@/shared/assets/icons/icon_arrow-r.svg";
@@ -13,11 +14,13 @@ import IconTiktok from "@/shared/assets/icons/icon_tiktok_filled.svg";
 import IconWallet from "@/shared/assets/icons/icon_wallet.svg";
 import { Button } from "@/shared/ui/Button";
 import { ReadMore } from "@/shared/ui/ReadMore";
+import { Skeleton } from "@/shared/ui/Skeleton";
 import { Typography } from "@/shared/ui/Typography";
 import { cn } from "@/shared/utils/common";
 import { formatFullName } from "@/shared/utils/formatters";
 import { Footer } from "@/widgets/Footer";
 import { useQuery } from "@tanstack/react-query";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -31,17 +34,36 @@ const fetchBloggerById = async (id: string): Promise<Blogger> => {
   return data;
 };
 
+const getCities = async ({
+  locale = "ru",
+}: {
+  locale: "ru" | "kz" | "en";
+}): Promise<City[]> => {
+  const response = await fetch(`${config.API_BASE}/cities?lang=${locale}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch cities");
+  }
+  return response.json();
+};
+
 export default function BloggerByIdPage({
   params,
 }: {
   params: { id: string };
 }) {
   const router = useRouter();
+  const locale = useLocale();
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["blogger", params.id],
     queryFn: () => fetchBloggerById(params.id),
     enabled: !!params.id,
   });
+  const { data: citiesData, isLoading: isCitiesLoading } = useQuery<City[]>({
+    queryKey: ["cities"],
+    queryFn: () => getCities({ locale: locale as "ru" | "kz" | "en" }),
+  });
+
   const [isFavorite, setIsFavorite] = useState(false);
 
   if (isLoading) return <div>Loading...</div>;
@@ -185,9 +207,17 @@ export default function BloggerByIdPage({
             <Typography className="text-[18px] font-semibold leading-[25.2px]">
               Регион
             </Typography>
-            <Typography className="text-[16px] leading-[20.8px]">
-              Казахстан, Астана
-            </Typography>
+            {isCitiesLoading ? (
+              <Skeleton className="bg-slate-200"></Skeleton>
+            ) : data?.city_id && citiesData?.[data.city_id] ? (
+              <Typography className="text-[16px] leading-[20.8px] text-text-secondary-subduet">
+                {citiesData[data.city_id].name}, Казахстан
+              </Typography>
+            ) : (
+              <Typography className="text-[16px] leading-[20.8px]">
+                Не указано
+              </Typography>
+            )}
           </div>
         </div>
         <div className="mt-4 flex w-full flex-col items-stretch justify-start gap-2">

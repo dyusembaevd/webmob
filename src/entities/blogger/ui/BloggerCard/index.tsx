@@ -1,12 +1,17 @@
 "use client";
 
+import { config } from "@/config";
 import IconFavorite from "@/features/bloggers/ui/IconFavorite";
+import { City } from "@/features/profile/types";
 import { useRouter } from "@/navigation";
 import IconInstagram from "@/shared/assets/icons/icon_instagram_filled.svg";
 import IconTiktok from "@/shared/assets/icons/icon_tiktok_filled.svg";
+import { Skeleton } from "@/shared/ui/Skeleton";
 import { Typography } from "@/shared/ui/Typography";
 import { cn } from "@/shared/utils/common";
 import { formatFullName } from "@/shared/utils/formatters";
+import { useQuery } from "@tanstack/react-query";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -17,13 +22,30 @@ type Props = {
   blogger: Blogger;
 };
 
+const getCities = async ({
+  locale = "ru",
+}: {
+  locale: "ru" | "kz" | "en";
+}): Promise<City[]> => {
+  const response = await fetch(`${config.API_BASE}/cities?lang=${locale}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch cities");
+  }
+  return response.json();
+};
+
 export const BloggerCard = ({ blogger }: Props) => {
   const router = useRouter();
   const [isFavorite, setIsFavorite] = useState(false);
-
+  const locale = useLocale();
   const handleClick = () => {
     router.push(`/bloggers/${blogger.guid}` as any);
   };
+
+  const { data: citiesData, isLoading: isCitiesLoading } = useQuery<City[]>({
+    queryKey: ["cities"],
+    queryFn: () => getCities({ locale: locale as "ru" | "kz" | "en" }),
+  });
 
   return (
     <div
@@ -86,9 +108,15 @@ export const BloggerCard = ({ blogger }: Props) => {
                 patronymic: blogger.patronymic ?? undefined,
               })}
             </Typography>
-            <Typography className="text-text-secondary-subduet">
-              Астана, Казахстан
-            </Typography>
+            {isCitiesLoading ? (
+              <Skeleton className="bg-slate-200"></Skeleton>
+            ) : blogger?.city_id && citiesData?.[blogger.city_id] ? (
+              <Typography className="text-text-secondary-subduet">
+                {citiesData[blogger.city_id].name}, Казахстан
+              </Typography>
+            ) : (
+              <div className="h-[19.6px]" />
+            )}
           </div>
           <div className="flex flex-col items-center justify-start">
             <Typography className="text-[20px] font-semibold leading-[28px]">

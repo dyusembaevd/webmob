@@ -14,7 +14,7 @@ export interface Blogger {
   instagram_followers: number | null;
   tiktok: string | null;
   tiktok_followers: number | null;
-  city_id: string | null;
+  city_id: number | null;
   price_type: "money" | "barter" | null;
   price: number | null;
   content_language: string | null;

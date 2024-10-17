@@ -22,7 +22,13 @@ export const customButtonVariants = cva(
         primary_dark: ["bg-base-300", "active:bg-gradient-dark"],
       },
       disabled: {
-        true: ["opacity-50", "cursor-not-allowed"],
+        true: [
+          "bg-[#171719]",
+          "bg-opacity-[8%]",
+          "text-[#171719]",
+          "text-opacity-[40%]",
+          "cursor-not-allowed",
+        ],
         false: [""],
       },
     },
@@ -81,7 +87,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           </>
         ) : (
           <>
-            {<span className="mr-2">{prefixIcon}</span>}
+            {prefixIcon && <span className="mr-2">{prefixIcon}</span>}
             <Typography className="text-[16px] font-semibold leading-[22.4px]">
               {children}
             </Typography>

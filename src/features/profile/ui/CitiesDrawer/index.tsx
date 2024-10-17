@@ -11,11 +11,7 @@ import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import React, { ReactNode, useState } from "react";
 
-interface City {
-  id: number;
-  slug: string;
-  name: string;
-}
+import { City } from "../../types";
 
 const getCities = async ({
   locale = "ru",

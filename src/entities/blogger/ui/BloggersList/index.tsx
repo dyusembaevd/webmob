@@ -1,8 +1,9 @@
 "use client";
 
 import { config } from "@/config";
+import { City } from "@/features/profile/types";
 import { Skeleton } from "@/shared/ui/Skeleton";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -39,7 +40,6 @@ const fetchBloggers = async ({
 export const BloggersList = () => {
   const searchParams = useSearchParams();
   const locale = useLocale();
-
   const paramsObj = useMemo(() => {
     const entries = searchParams.entries();
     return Object.fromEntries(entries);
