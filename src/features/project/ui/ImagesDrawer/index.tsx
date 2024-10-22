@@ -1,7 +1,6 @@
 "use client";
 
 import { config } from "@/config";
-import { CreateAdRequest } from "@/entities/project/types";
 import CloseIcon from "@/shared/assets/icons/icon_close.svg";
 import IconImageRed from "@/shared/assets/icons/icon_image_red.svg";
 import IconTrashWhite from "@/shared/assets/icons/icon_trash_white.svg";
@@ -15,45 +14,40 @@ import {
 } from "@/shared/ui/Drawer";
 import { Typography } from "@/shared/ui/Typography";
 import { cn } from "@/shared/utils/common";
-import React, { ReactNode, useEffect, useState } from "react";
-import { useFormContext, useWatch } from "react-hook-form";
+import React, { ReactNode, useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
-  const { setValue, control } = useFormContext<CreateAdRequest>();
+  const { setValue } = useFormContext();
 
-  const logoUrl =
-    useWatch({
-      control,
-      name: "logo_url",
-    }) || "";
-
-  const bannerUrl =
-    useWatch({
-      control,
-      name: "banner_url",
-    }) || "";
-
+  // State for managing files and previews
+  const [extraImages, setExtraImages] = useState<File[]>([]);
+  const [extraImagePreviews, setExtraImagePreviews] = useState<string[]>([]);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [bannerFile, setBannerFile] = useState<File | null>(null);
-  const [logoPreview, setLogoPreview] = useState<string>(logoUrl);
-  const [bannerPreview, setBannerPreview] = useState<string>(bannerUrl);
+  const [logoPreview, setLogoPreview] = useState<string>("");
+  const [bannerPreview, setBannerPreview] = useState<string>("");
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
-  const hasValues = logoUrl && bannerUrl;
+  const hasValues = !!logoPreview && !!bannerPreview;
 
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setFile: React.Dispatch<React.SetStateAction<File | null>>,
+    setPreview: React.Dispatch<React.SetStateAction<string>>,
+  ) => {
     const file = e.target.files?.[0];
     if (file) {
-      setLogoFile(file);
-      setLogoPreview(URL.createObjectURL(file));
+      setFile(file);
+      setPreview(URL.createObjectURL(file));
     }
   };
 
-  const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleExtraImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setBannerFile(file);
-      setBannerPreview(URL.createObjectURL(file));
+    if (file && extraImages.length < 7) {
+      setExtraImages((prev) => [...prev, file]);
+      setExtraImagePreviews((prev) => [...prev, URL.createObjectURL(file)]);
     }
   };
 
@@ -71,25 +65,21 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
     }
 
     const data = await response.json();
-    const guid = data.guid;
-    const imageUrl = `${config.API_BASE}/statics/objects/${guid}`;
-    return imageUrl;
+    return `${config.API_BASE}/statics/objects/${data.guid}`;
   };
 
   const handleApply = async () => {
     try {
       setIsUploading(true);
 
-      let logoUrlValue = logoUrl;
       if (logoFile) {
-        logoUrlValue = await uploadFile(logoFile);
-        setValue("logo_url", logoUrlValue);
+        const logoUrl = await uploadFile(logoFile);
+        setValue("logo_url", logoUrl);
       }
 
-      let bannerUrlValue = bannerUrl;
       if (bannerFile) {
-        bannerUrlValue = await uploadFile(bannerFile);
-        setValue("banner_url", bannerUrlValue);
+        const bannerUrl = await uploadFile(bannerFile);
+        setValue("banner_url", bannerUrl);
       }
 
       setLogoFile(null);
@@ -100,24 +90,6 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
       setIsUploading(false);
     }
   };
-
-  // Remove the selected image on clicking the trash icon
-  const handleRemoveImage = (imageType: "logo" | "banner") => {
-    if (imageType === "logo") {
-      setLogoFile(null);
-      setLogoPreview("");
-      setValue("logo_url", "");
-    } else {
-      setBannerFile(null);
-      setBannerPreview("");
-      setValue("banner_url", "");
-    }
-  };
-
-  useEffect(() => {
-    setLogoPreview(logoUrl);
-    setBannerPreview(bannerUrl);
-  }, [logoUrl, bannerUrl]);
 
   return (
     <div className="flex items-center gap-1">
@@ -161,66 +133,42 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
             <Typography className="text-[16px] font-normal leading-[20.8px]">
               Логотип*
             </Typography>
-            <div className="flex items-center gap-4">
-              <div className="group relative">
-                {logoPreview ? (
-                  <div className="relative h-[80px] w-[80px]">
-                    <img
-                      src={logoPreview}
-                      alt="Logo Preview"
-                      className="h-full w-full rounded-[12px] object-cover group-hover:bg-[#364467] group-hover:bg-opacity-40 group-hover:blur-[1px]"
-                    />
-                    <IconTrashWhite
-                      className="absolute inset-0 m-auto h-6 w-6 cursor-pointer opacity-0 transition-opacity group-hover:opacity-100"
-                      onClick={() => handleRemoveImage("logo")}
-                    />
-                  </div>
-                ) : (
-                  <div className="flex h-[80px] w-[80px] items-center justify-center rounded-[12px] border border-[#1717191F] bg-[#8065FF0D] text-sm text-gray-500">
-                    <IconUpload />
-                  </div>
-                )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleLogoChange}
-                  className="absolute left-0 top-0 h-full w-full cursor-pointer opacity-0"
-                />
-              </div>
-            </div>
+            <FileInputPreview
+              preview={logoPreview}
+              handleChange={(e) =>
+                handleFileChange(e, setLogoFile, setLogoPreview)
+              }
+            />
 
             {/* Section 2: Главное изображение* */}
             <Typography className="mt-6 text-[16px] font-normal leading-[20.8px]">
               Главное изображение*
             </Typography>
-            <div className="flex items-center gap-4">
-              <div className="group relative">
-                {bannerPreview ? (
-                  <div className="relative h-[80px] w-[80px]">
-                    <img
-                      src={bannerPreview}
-                      alt="Banner Preview"
-                      className="h-full w-full rounded-[12px] object-cover group-hover:bg-[#364467] group-hover:bg-opacity-40 group-hover:blur-[1px]"
-                    />
-                    <IconTrashWhite
-                      className="absolute inset-0 m-auto h-6 w-6 cursor-pointer opacity-0 transition-opacity group-hover:opacity-100"
-                      onClick={() => handleRemoveImage("banner")}
-                    />
-                  </div>
-                ) : (
-                  <div className="flex h-[80px] w-[80px] items-center justify-center rounded-[12px] border border-[#1717191F] bg-[#8065FF0D] text-sm text-gray-500">
-                    <IconUpload />
-                  </div>
-                )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleBannerChange}
-                  className="absolute left-0 top-0 h-full w-full cursor-pointer opacity-0"
-                />
-              </div>
+            <FileInputPreview
+              preview={bannerPreview}
+              handleChange={(e) =>
+                handleFileChange(e, setBannerFile, setBannerPreview)
+              }
+            />
+
+            {/* Section 3: Фото товара, контент для рекламы и др. */}
+            <Typography className="mt-6 text-[16px] font-normal leading-[20.8px]">
+              Фото товара, контент для рекламы и др.
+            </Typography>
+            <div className="relative -mr-5 flex flex-nowrap items-center gap-4 overflow-x-auto overflow-y-hidden">
+              {/* Render previews for uploaded extra images */}
+              {extraImagePreviews.map((preview, index) => (
+                <FileImagePreview key={index} preview={preview} />
+              ))}
+
+              {/* Upload button for additional images (max 7) */}
+              {extraImages.length < 7 && (
+                <UploadButton handleChange={handleExtraImageChange} />
+              )}
             </div>
           </div>
+
+          {/* Save/Upload button */}
           <div className="absolute bottom-0 flex w-full flex-nowrap justify-evenly gap-2 bg-white px-5 pb-5">
             <DrawerClose asChild>
               <Button
@@ -231,6 +179,7 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
                     : "flex-1 bg-[#8065FF]",
                 )}
                 onClick={handleApply}
+                disabled={!hasValues || isUploading}
               >
                 {isUploading ? "Загрузка..." : "Сохранить"}
               </Button>
@@ -241,3 +190,60 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
     </div>
   );
 };
+
+const FileInputPreview = ({
+  preview,
+  handleChange,
+}: {
+  preview: string;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => (
+  <div className="group relative">
+    {preview ? (
+      <div className="relative h-[80px] w-[80px]">
+        <img
+          src={preview}
+          alt="Preview"
+          className="h-full w-full rounded-[12px] object-cover group-hover:bg-[#364467] group-hover:bg-opacity-40 group-hover:blur-[1px]"
+        />
+        <IconTrashWhite className="absolute inset-0 m-auto h-6 w-6 cursor-pointer opacity-0 transition-opacity group-hover:opacity-100" />
+      </div>
+    ) : (
+      <div className="pointer-events-none flex h-[80px] w-[80px] items-center justify-center rounded-[12px] border border-[#1717191F] bg-[#8065FF0D] text-sm text-gray-500">
+        <IconUpload />
+      </div>
+    )}
+    <input
+      type="file"
+      accept="image/*"
+      onChange={handleChange}
+      className="pointer-events-auto absolute left-0 top-0 z-10 h-full w-full cursor-pointer opacity-0"
+    />
+  </div>
+);
+
+const FileImagePreview = ({ preview }: { preview: string }) => (
+  <div className="relative h-[80px] w-[80px] shrink-0">
+    <img
+      src={preview}
+      alt="Extra Preview"
+      className="h-full w-full rounded-[12px] object-cover"
+    />
+  </div>
+);
+
+const UploadButton = ({
+  handleChange,
+}: {
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => (
+  <div className="flex h-[80px] w-[80px] items-center justify-center rounded-[12px] border border-[#1717191F] bg-[#8065FF0D] text-sm text-gray-500">
+    <IconUpload />
+    <input
+      type="file"
+      accept="image/*"
+      onChange={handleChange}
+      className="absolute left-0 top-0 z-10 h-full w-full cursor-pointer opacity-0"
+    />
+  </div>
+);

@@ -3,6 +3,7 @@
 import { useCreateAd } from "@/entities/project/model/useCreateAd";
 import { CreateAdRequest } from "@/entities/project/types";
 import { CreateAdRequestSchema } from "@/entities/project/types/schema";
+import { ProjectCreatedDrawer } from "@/entities/project/ui/ProjectCreatedDrawer";
 import { SocialNetworkDrawer } from "@/features/project";
 import { BonusesDrawer } from "@/features/project/ui/BonusesDrawer";
 import { CategoriesDrawer } from "@/features/project/ui/CategoriesDrawer";
@@ -21,11 +22,16 @@ import IconText from "@/shared/assets/icons/icon_Text Square.svg";
 import { Button } from "@/shared/ui/Button";
 import { Calendar } from "@/shared/ui/Calendar";
 import { Typography } from "@/shared/ui/Typography";
+import { cn } from "@/shared/utils/common";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 export default function ProjectPage() {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [createdProjectGuid, setCreatedProjectGuid] = useState<string | null>(
+    null,
+  );
   const router = useRouter();
   const methods = useForm<CreateAdRequest>({
     resolver: zodResolver(CreateAdRequestSchema),
@@ -36,14 +42,14 @@ export default function ProjectPage() {
   const createAdMutation = useCreateAd({
     onSuccess: (data) => {
       if (data.guid) {
-        router.push(`/project/${data.guid}` as any);
+        setCreatedProjectGuid(data.guid);
+        setIsDrawerOpen(true);
       }
     },
     onError: (error) => {
       console.error("Error creating ad:", error.message);
     },
   });
-
   const onSubmit = (data: CreateAdRequest) => {
     console.log("onSubmit called with data:", data);
     createAdMutation.mutate(data);
@@ -74,7 +80,21 @@ export default function ProjectPage() {
   const logoUrl = methods.watch("logo_url");
   const bannerUrl = methods.watch("banner_url");
   const isImagesFilled = logoUrl?.trim() && bannerUrl?.trim();
+  const cityIds = methods.watch("city_ids");
+  const maxPrice = methods.watch("max_price");
+  const minPrice = methods.watch("min_price");
+  const requirements = methods.watch("requirements");
 
+  const isFormValid =
+    categoryIds?.length > 0 &&
+    cityIds?.length > 0 &&
+    !!deadline?.trim() &&
+    maxPrice > 0 &&
+    minPrice > 0 &&
+    !!requirements &&
+    !!specification?.trim();
+
+  const closeDrawer = () => setIsDrawerOpen(false);
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -230,13 +250,33 @@ export default function ProjectPage() {
           <div className="fixed bottom-0 left-0 z-30 flex w-full items-center justify-center bg-white px-4 py-5">
             <button
               type="submit"
-              className="w-full rounded-[32px] bg-[#171719] bg-opacity-[8%] px-2 pb-[18px] pt-[16px] text-[#171719] text-opacity-40"
+              disabled={!isFormValid}
+              className={cn(
+                "w-full rounded-[32px] px-2 pb-[18px] pt-[16px]",
+                isFormValid
+                  ? "bg-[var(--bg-accent,#8065FF)] text-white"
+                  : "cursor-not-allowed bg-[#171719] bg-opacity-[8%] text-[#171719] text-opacity-40",
+              )}
             >
               Создать проект
             </button>
           </div>
         </div>
       </form>
+      <ProjectCreatedDrawer
+        open={isDrawerOpen}
+        onClose={closeDrawer}
+        onMainPage={() => {
+          closeDrawer();
+          router.push("/");
+        }}
+        onProjectPreview={() => {
+          if (createdProjectGuid) {
+            closeDrawer();
+            router.push(`/project/${createdProjectGuid}` as any);
+          }
+        }}
+      />
     </FormProvider>
   );
 }

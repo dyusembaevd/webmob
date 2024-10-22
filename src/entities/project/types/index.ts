@@ -1,3 +1,6 @@
+import { Category } from "@/entities/blogger/types";
+import { City } from "@/features/profile/types";
+
 // entities/project/types/index.ts
 export interface RequirementItem {
   type: string;
@@ -28,4 +31,22 @@ export interface CreateAdRequest {
   requirements: Requirements;
   specification: string;
   title: string;
+}
+
+export interface Project {
+  guid: string;
+  merchant_guid: string;
+  status: string;
+  title: string;
+  description: string;
+  specification: string;
+  bonus: string;
+  logo_url: string;
+  banner_url: string;
+  min_price: number;
+  max_price: number;
+  deadline: string;
+  requirements: Requirements;
+  categories: Category[];
+  cities: City[];
 }
