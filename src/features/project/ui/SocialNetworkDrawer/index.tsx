@@ -1,6 +1,7 @@
 "use client";
 
 import { config } from "@/config";
+import { CreateAdRequest, RequirementItem } from "@/entities/project/types";
 import IconArrowDown from "@/shared/assets/icons/icon_arrow_d.svg";
 import CloseIcon from "@/shared/assets/icons/icon_close.svg";
 import IconInstagram from "@/shared/assets/icons/icon_instagram_large.svg";
@@ -15,17 +16,52 @@ import {
 } from "@/shared/ui/Drawer";
 import { Typography } from "@/shared/ui/Typography";
 import { cn } from "@/shared/utils/common";
-import { useQuery } from "@tanstack/react-query";
-import { useRouter, useSearchParams } from "next/navigation";
 import React, { ReactNode, useState } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
 
 export const SocialNetworkDrawer = ({ children }: { children: ReactNode }) => {
-  const [instagramValue, setInstagramValue] = useState<string>("");
-  const [tiktokValue, setTiktokValue] = useState<string>("");
+  const { setValue, control } = useFormContext<CreateAdRequest>();
 
-  const hasValues = instagramValue.trim() !== "" || tiktokValue.trim() !== "";
+  // Local state for checkboxes and input fields
+  const [instagramChecked, setInstagramChecked] = useState(false);
+  const [tiktokChecked, setTiktokChecked] = useState(false);
+  const [instagramUrl, setInstagramUrl] = useState("");
+  const [tiktokUrl, setTiktokUrl] = useState("");
 
-  const handleApply = () => {};
+  // Watch the 'requirements.social_networks' field to determine if drawer is filled
+  const socialNetworks = useWatch({
+    control,
+    name: "requirements.social_networks",
+  });
+
+  const isDrawerFilled = socialNetworks && socialNetworks.length > 0;
+
+  const hasValues =
+    (instagramChecked && instagramUrl.trim() !== "") ||
+    (tiktokChecked && tiktokUrl.trim() !== "");
+
+  const handleApply = () => {
+    const selectedSocialNetworks: RequirementItem[] = [];
+
+    if (instagramChecked && instagramUrl.trim() !== "") {
+      selectedSocialNetworks.push({
+        type: "social_network",
+        value: "instagram",
+        description: instagramUrl,
+      });
+    }
+    if (tiktokChecked && tiktokUrl.trim() !== "") {
+      selectedSocialNetworks.push({
+        type: "social_network",
+        value: "tiktok",
+        description: tiktokUrl,
+      });
+    }
+
+    // Update the form state
+    setValue("requirements.social_networks", selectedSocialNetworks);
+  };
+
   return (
     <div className="flex items-center gap-1">
       <Drawer>
@@ -37,10 +73,10 @@ export const SocialNetworkDrawer = ({ children }: { children: ReactNode }) => {
         </DrawerTrigger>
         <DrawerContent>
           <div
-            style={{ height: "calc(100dvh-48px)" }}
+            style={{ height: "calc(100dvh - 24px)" }}
             className="flex flex-col gap-3 overflow-auto px-5 pb-[102px]"
           >
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-7 flex items-center justify-between">
               <Typography
                 variant="headline3"
                 className="semibold w-full text-center text-[16px] leading-[22.4px]"
@@ -49,18 +85,32 @@ export const SocialNetworkDrawer = ({ children }: { children: ReactNode }) => {
               </Typography>
 
               <DrawerClose asChild>
-                <CloseIcon width={28} height={28} className="text-base-700" />
+                <CloseIcon
+                  width={28}
+                  height={28}
+                  className="text-base-700 absolute right-5"
+                />
               </DrawerClose>
             </div>
             <Typography
               variant="headline3"
-              className="mb-4 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 text-[18px] font-semibold leading-[25.2px]"
             >
               Выберите социальную сеть, в которой будет размещена реклама{" "}
             </Typography>
             <div className="flex w-full flex-col items-stretch justify-start gap-2">
+              {/* Instagram Checkbox */}
               <div className="flex w-full items-center justify-start gap-2">
-                <Checkbox value={"instagram"} />
+                <input
+                  type="checkbox"
+                  checked={instagramChecked}
+                  onChange={(e) => {
+                    setInstagramChecked(e.target.checked);
+                    if (!e.target.checked) {
+                      setInstagramUrl("");
+                    }
+                  }}
+                />
                 <div className="flex h-9 w-9 items-center justify-center rounded-[8px] border-[1px] border-[#1717191F]">
                   <IconInstagram />
                 </div>
@@ -68,8 +118,18 @@ export const SocialNetworkDrawer = ({ children }: { children: ReactNode }) => {
                   Instagram
                 </Typography>
               </div>
+              {/* Tiktok Checkbox */}
               <div className="flex w-full items-center justify-start gap-2">
-                <Checkbox value={"tiktok"} />
+                <input
+                  type="checkbox"
+                  checked={tiktokChecked}
+                  onChange={(e) => {
+                    setTiktokChecked(e.target.checked);
+                    if (!e.target.checked) {
+                      setTiktokUrl("");
+                    }
+                  }}
+                />
                 <div className="flex h-9 w-9 items-center justify-center rounded-[8px] border-[1px] border-[#1717191F]">
                   <IconTiktok />
                 </div>
@@ -81,44 +141,52 @@ export const SocialNetworkDrawer = ({ children }: { children: ReactNode }) => {
             <div className="mt-6 flex w-full flex-col items-stretch justify-start gap-2">
               <Typography
                 variant="headline3"
-                className="mb-4 text-[18px] font-semibold leading-[25.2px]"
+                className="mb-2 text-[18px] font-semibold leading-[25.2px]"
               >
                 Добавьте ссылку на рекламируемую страницу
               </Typography>
 
               {/* Instagram Input */}
-              <label
-                htmlFor="instagram"
-                className="pl-3 text-left text-[14px] font-normal leading-[19.6px]"
-                style={{ fontFamily: "Roboto" }}
-              >
-                Instagram
-              </label>
-              <input
-                type="text"
-                id="instagram"
-                value={instagramValue}
-                onChange={(e) => setInstagramValue(e.target.value)}
-                className="h-[52px] w-[335px] rounded-[24px] border border-[#1717191F] px-[14px] py-[6px] focus:border-[#8065FF] focus:outline-none"
-                placeholder="https://www.instagram"
-              />
+              {instagramChecked && (
+                <>
+                  <label
+                    htmlFor="instagramUrl"
+                    className="pl-3 text-left text-[14px] font-normal leading-[19.6px]"
+                    style={{ fontFamily: "Roboto" }}
+                  >
+                    Instagram
+                  </label>
+                  <input
+                    type="text"
+                    id="instagramUrl"
+                    value={instagramUrl}
+                    onChange={(e) => setInstagramUrl(e.target.value)}
+                    className="h-[52px] w-full rounded-[24px] border border-[#1717191F] px-[14px] py-[6px] focus:border-[#8065FF] focus:outline-none"
+                    placeholder="https://www.instagram.com/yourpage"
+                  />
+                </>
+              )}
 
               {/* Tiktok Input */}
-              <label
-                htmlFor="tiktok"
-                className="pl-3 text-left text-[14px] font-normal leading-[19.6px]"
-                style={{ fontFamily: "Roboto" }}
-              >
-                Tiktok
-              </label>
-              <input
-                type="text"
-                id="tiktok"
-                value={tiktokValue}
-                onChange={(e) => setTiktokValue(e.target.value)}
-                className="h-[52px] w-[335px] rounded-[24px] border border-[#1717191F] px-[14px] py-[6px] focus:border-[#8065FF] focus:outline-none"
-                placeholder="https://www.tiktok"
-              />
+              {tiktokChecked && (
+                <>
+                  <label
+                    htmlFor="tiktokUrl"
+                    className="pl-3 text-left text-[14px] font-normal leading-[19.6px]"
+                    style={{ fontFamily: "Roboto" }}
+                  >
+                    Tiktok
+                  </label>
+                  <input
+                    type="text"
+                    id="tiktokUrl"
+                    value={tiktokUrl}
+                    onChange={(e) => setTiktokUrl(e.target.value)}
+                    className="h-[52px] w-full rounded-[24px] border border-[#1717191F] px-[14px] py-[6px] focus:border-[#8065FF] focus:outline-none"
+                    placeholder="https://www.tiktok.com/@yourpage"
+                  />
+                </>
+              )}
             </div>
           </div>
 
@@ -132,7 +200,7 @@ export const SocialNetworkDrawer = ({ children }: { children: ReactNode }) => {
                     : "flex-1 bg-[#8065FF]",
                 )}
                 onClick={handleApply}
-                disabled={!hasValues} // Disable the button if no input has a value
+                disabled={!hasValues}
               >
                 Сохранить
               </Button>

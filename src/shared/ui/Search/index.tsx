@@ -59,7 +59,11 @@ export const CitiesDrawer = ({ children }: { children: ReactNode }) => {
               <Typography variant="headline3">Выберите город</Typography>
 
               <DrawerClose asChild>
-                <CloseIcon width={24} height={24} className="text-base-700" />
+                <CloseIcon
+                  width={24}
+                  height={24}
+                  className="text-base-700 absolute right-5"
+                />
               </DrawerClose>
             </div>
 
