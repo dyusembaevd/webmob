@@ -12,12 +12,14 @@ import { RequirementsDrawer } from "@/features/project/ui/RequirementsDrawer";
 import { Link, useRouter } from "@/navigation";
 import IconArrowBack from "@/shared/assets/icons/icon_arrow_back.svg";
 import IconBusiness from "@/shared/assets/icons/icon_Business, Statistic.svg";
+import IconCheckboxChecked from "@/shared/assets/icons/icon_checkbox_checked.svg";
 import IconDocumentAdd from "@/shared/assets/icons/icon_Document Add.svg";
 import IconGlobal from "@/shared/assets/icons/icon_Global.svg";
 import IconList from "@/shared/assets/icons/icon_List.svg";
 import IconMoney from "@/shared/assets/icons/icon_Money.svg";
 import IconText from "@/shared/assets/icons/icon_Text Square.svg";
 import { Button } from "@/shared/ui/Button";
+import { Calendar } from "@/shared/ui/Calendar";
 import { Typography } from "@/shared/ui/Typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
@@ -107,19 +109,19 @@ export default function ProjectPage() {
               {/* Button 1 */}
               <SocialNetworkDrawer>
                 <button className="group flex items-center justify-start gap-3 rounded-[16px] bg-[#364467] bg-opacity-15 px-4 py-3 active:bg-black">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-white group-active:bg-[#8065FF]">
+                  <div className="flex h-8 w-8 items-center justify-center self-center self-center rounded-[8px] bg-white group-active:bg-[#8065FF]">
                     <IconGlobal />
                   </div>
                   <div className="flex flex-1 flex-col items-start justify-start gap-[2px]">
                     <Typography className="text-[16px] leading-[20.8px] group-active:text-white">
                       Социальная сеть
                     </Typography>
-                    <Typography className="text-[14px] leading-[19.6px] group-active:text-white">
+                    <Typography className="truncate text-[14px] leading-[19.6px] group-active:text-white">
                       Рекламируемая страница
                     </Typography>
                   </div>
                   {isSocialNetworksFilled && (
-                    <input type="checkbox" checked readOnly />
+                    <IconCheckboxChecked className="self-center" />
                   )}
                 </button>
               </SocialNetworkDrawer>
@@ -127,38 +129,38 @@ export default function ProjectPage() {
               {/* Button 2 */}
               <CategoriesDrawer>
                 <button className="group flex items-center justify-start gap-3 rounded-[16px] bg-[#364467] bg-opacity-15 px-4 py-3 active:bg-black">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-white group-active:bg-[#8065FF]">
+                  <div className="flex h-8 w-8 items-center justify-center self-center rounded-[8px] bg-white group-active:bg-[#8065FF]">
                     <IconList />
                   </div>
                   <div className="flex flex-1 flex-col items-start justify-start gap-[2px]">
                     <Typography className="text-[16px] leading-[20.8px] group-active:text-white">
                       1 - Категории
                     </Typography>
-                    <Typography className="text-[14px] leading-[19.6px] group-active:text-white">
+                    <Typography className="truncate text-[14px] leading-[19.6px] group-active:text-white">
                       Тематика проекта
                     </Typography>
                   </div>
                   {isCategoriesFilled && (
-                    <input type="checkbox" checked readOnly />
+                    <IconCheckboxChecked className="self-center" />
                   )}
                 </button>
               </CategoriesDrawer>
               {/* Button 3 */}
               <PublicationsDrawer>
                 <button className="group flex items-center justify-start gap-3 rounded-[16px] bg-[#364467] bg-opacity-15 px-4 py-3 active:bg-black">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-white group-active:bg-[#8065FF]">
+                  <div className="flex h-8 w-8 items-center justify-center self-center rounded-[8px] bg-white group-active:bg-[#8065FF]">
                     <IconText />
                   </div>
                   <div className="flex flex-1 flex-col items-start justify-start gap-[2px]">
                     <Typography className="text-[16px] leading-[20.8px] group-active:text-white">
                       2 - Публикация
                     </Typography>
-                    <Typography className="text-[14px] leading-[19.6px] group-active:text-white">
+                    <Typography className="truncate text-[14px] leading-[19.6px] group-active:text-white">
                       Формат публикации и цена за нее
                     </Typography>
                   </div>
                   {isPublicationFilled && (
-                    <input type="checkbox" checked readOnly />
+                    <IconCheckboxChecked className="self-center" />
                   )}
                 </button>
               </PublicationsDrawer>
@@ -166,19 +168,19 @@ export default function ProjectPage() {
               {/* Button 4 */}
               <RequirementsDrawer>
                 <button className="group flex items-center justify-start gap-3 rounded-[16px] bg-[#364467] bg-opacity-15 px-4 py-3 active:bg-black">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-white group-active:bg-[#8065FF]">
+                  <div className="flex h-8 w-8 items-center justify-center self-center rounded-[8px] bg-white group-active:bg-[#8065FF]">
                     <IconDocumentAdd />
                   </div>
                   <div className="flex flex-1 flex-col items-start justify-start gap-[2px]">
                     <Typography className="text-[16px] leading-[20.8px] group-active:text-white">
                       3 - Техническое задание
                     </Typography>
-                    <Typography className="text-[14px] leading-[19.6px] group-active:text-white">
+                    <Typography className="truncate text-[14px] leading-[19.6px] group-active:text-white">
                       Описание, сроки, условия
                     </Typography>
                   </div>
                   {isTechnicalTaskFilled && (
-                    <input type="checkbox" checked readOnly />
+                    <IconCheckboxChecked className="self-center" />
                   )}
                 </button>
               </RequirementsDrawer>
@@ -186,36 +188,40 @@ export default function ProjectPage() {
               {/* Button 5 */}
               <BonusesDrawer>
                 <button className="group flex items-center justify-start gap-3 rounded-[16px] bg-[#364467] bg-opacity-15 px-4 py-3 active:bg-black">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-white group-active:bg-[#8065FF]">
+                  <div className="flex h-8 w-8 items-center justify-center self-center rounded-[8px] bg-white group-active:bg-[#8065FF]">
                     <IconMoney />
                   </div>
                   <div className="flex flex-1 flex-col items-start justify-start gap-[2px]">
                     <Typography className="text-[16px] leading-[20.8px] group-active:text-white">
                       4 - Бонусы
                     </Typography>
-                    <Typography className="text-[14px] leading-[19.6px] group-active:text-white">
+                    <Typography className="truncate text-[14px] leading-[19.6px] group-active:text-white">
                       Текст для бонусов и промокодов
                     </Typography>
                   </div>
-                  {isBonusFilled && <input type="checkbox" checked readOnly />}
+                  {isBonusFilled && (
+                    <IconCheckboxChecked className="self-center" />
+                  )}
                 </button>
               </BonusesDrawer>
 
               {/* Button 6 */}
               <ImagesDrawer>
                 <button className="group flex items-center justify-start gap-3 rounded-[16px] bg-[#364467] bg-opacity-15 px-4 py-3 active:bg-black">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-white group-active:bg-[#8065FF]">
+                  <div className="flex h-8 w-8 items-center justify-center self-center rounded-[8px] bg-white group-active:bg-[#8065FF]">
                     <IconBusiness />
                   </div>
                   <div className="flex flex-1 flex-col items-start justify-start gap-[2px]">
                     <Typography className="text-[16px] leading-[20.8px] group-active:text-white">
                       5 - Изображения
                     </Typography>
-                    <Typography className="text-[14px] leading-[19.6px] group-active:text-white">
+                    <Typography className="truncate text-[14px] leading-[19.6px] group-active:text-white">
                       Логотип компании, фото
                     </Typography>
                   </div>
-                  {isImagesFilled && <input type="checkbox" checked readOnly />}
+                  {isImagesFilled && (
+                    <IconCheckboxChecked className="self-center" />
+                  )}
                 </button>
               </ImagesDrawer>
             </div>

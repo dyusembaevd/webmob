@@ -73,10 +73,10 @@ export const SocialNetworkDrawer = ({ children }: { children: ReactNode }) => {
         </DrawerTrigger>
         <DrawerContent>
           <div
-            style={{ height: "calc(100dvh - 48px)" }}
+            style={{ height: "calc(100dvh - 24px)" }}
             className="flex flex-col gap-3 overflow-auto px-5 pb-[102px]"
           >
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-7 flex items-center justify-between">
               <Typography
                 variant="headline3"
                 className="semibold w-full text-center text-[16px] leading-[22.4px]"
@@ -85,12 +85,16 @@ export const SocialNetworkDrawer = ({ children }: { children: ReactNode }) => {
               </Typography>
 
               <DrawerClose asChild>
-                <CloseIcon width={28} height={28} className="text-base-700" />
+                <CloseIcon
+                  width={28}
+                  height={28}
+                  className="text-base-700 absolute right-5"
+                />
               </DrawerClose>
             </div>
             <Typography
               variant="headline3"
-              className="mb-4 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 text-[18px] font-semibold leading-[25.2px]"
             >
               Выберите социальную сеть, в которой будет размещена реклама{" "}
             </Typography>
@@ -137,7 +141,7 @@ export const SocialNetworkDrawer = ({ children }: { children: ReactNode }) => {
             <div className="mt-6 flex w-full flex-col items-stretch justify-start gap-2">
               <Typography
                 variant="headline3"
-                className="mb-4 text-[18px] font-semibold leading-[25.2px]"
+                className="mb-2 text-[18px] font-semibold leading-[25.2px]"
               >
                 Добавьте ссылку на рекламируемую страницу
               </Typography>

@@ -53,7 +53,11 @@ export const LanguagesDrawer = ({ children }: { children: ReactNode }) => {
                 onClick={() => setIsDrawerOpen(false)}
                 aria-label="Close Drawer"
               >
-                <CloseIcon width={24} height={24} className="text-base-700" />
+                <CloseIcon
+                  width={24}
+                  height={24}
+                  className="text-base-700 absolute right-5"
+                />
               </button>
             </div>
 

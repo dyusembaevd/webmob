@@ -19,6 +19,26 @@ import { useFormContext, useWatch } from "react-hook-form";
 
 // components/BonusesDrawer.tsx
 
+// components/BonusesDrawer.tsx
+
+// components/BonusesDrawer.tsx
+
+// components/BonusesDrawer.tsx
+
+// components/BonusesDrawer.tsx
+
+// components/BonusesDrawer.tsx
+
+// components/BonusesDrawer.tsx
+
+// components/BonusesDrawer.tsx
+
+// components/BonusesDrawer.tsx
+
+// components/BonusesDrawer.tsx
+
+// components/BonusesDrawer.tsx
+
 export const BonusesDrawer = ({ children }: { children: ReactNode }) => {
   const { setValue, control } = useFormContext<CreateAdRequest>();
 
@@ -54,10 +74,10 @@ export const BonusesDrawer = ({ children }: { children: ReactNode }) => {
         </DrawerTrigger>
         <DrawerContent>
           <div
-            style={{ height: "calc(100dvh - 48px)" }}
+            style={{ height: "calc(100dvh-24px)" }}
             className="flex flex-col gap-3 overflow-auto px-4 pb-[102px]"
           >
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-7 flex items-center justify-between">
               <Typography
                 variant="headline3"
                 className="semibold w-full text-center text-[16px] leading-[22.4px]"
@@ -66,13 +86,17 @@ export const BonusesDrawer = ({ children }: { children: ReactNode }) => {
               </Typography>
 
               <DrawerClose asChild>
-                <CloseIcon width={28} height={28} className="text-base-700" />
+                <CloseIcon
+                  width={28}
+                  height={28}
+                  className="text-base-700 absolute right-5"
+                />
               </DrawerClose>
             </div>
 
             <Typography
               variant="headline3"
-              className="mb-4 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 text-[18px] font-semibold leading-[25.2px]"
             >
               Какие бонусы вы предоставляете подписчикам за подписки, переходы,
               покупки и т.д. Эта информация будет добавлена в карточку проекта.
@@ -83,7 +107,7 @@ export const BonusesDrawer = ({ children }: { children: ReactNode }) => {
               value={bonusText}
               onChange={(e) => setBonusText(e.target.value)}
               placeholder="Например: «Скидка 2500 на первый заказ от 5000 из любого ресторана»"
-              className="h-[150px] w-full resize-none rounded-[16px] border border-[#1717191F] p-4 focus:border-[#8065FF] focus:outline-none"
+              className="h-[96px] w-full resize-none rounded-[16px] border border-[#1717191F] p-4 focus:border-[#8065FF] focus:outline-none"
               style={{ lineClamp: 3 }}
             />
           </div>

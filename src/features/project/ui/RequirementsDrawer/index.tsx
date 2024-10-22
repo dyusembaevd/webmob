@@ -23,6 +23,32 @@ import { useFormContext, useWatch } from "react-hook-form";
 
 // components/RequirementsDrawer.tsx
 
+// components/RequirementsDrawer.tsx
+
+// components/RequirementsDrawer.tsx
+
+// components/RequirementsDrawer.tsx
+
+// components/RequirementsDrawer.tsx
+
+// components/RequirementsDrawer.tsx
+
+// components/RequirementsDrawer.tsx
+
+// components/RequirementsDrawer.tsx
+
+// components/RequirementsDrawer.tsx
+
+// components/RequirementsDrawer.tsx
+
+// components/RequirementsDrawer.tsx
+
+// components/RequirementsDrawer.tsx
+
+// components/RequirementsDrawer.tsx
+
+// components/RequirementsDrawer.tsx
+
 export const RequirementsDrawer = ({ children }: { children: ReactNode }) => {
   const { setValue, control } = useFormContext<CreateAdRequest>();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -150,10 +176,10 @@ export const RequirementsDrawer = ({ children }: { children: ReactNode }) => {
         </DrawerTrigger>
         <DrawerContent>
           <div
-            style={{ height: "calc(100dvh - 48px)" }}
+            style={{ height: "calc(100dvh - 24px)" }}
             className="flex flex-col gap-3 overflow-auto px-4 pb-[102px]"
           >
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-7 flex items-center justify-between">
               <Typography
                 variant="headline3"
                 className="semibold w-full text-center text-[16px] leading-[22.4px]"
@@ -162,14 +188,18 @@ export const RequirementsDrawer = ({ children }: { children: ReactNode }) => {
               </Typography>
 
               <DrawerClose asChild>
-                <CloseIcon width={28} height={28} className="text-base-700" />
+                <CloseIcon
+                  width={28}
+                  height={28}
+                  className="text-base-700 absolute right-5"
+                />
               </DrawerClose>
             </div>
 
             {/* Section 1: Cities */}
             <Typography
               variant="headline3"
-              className="mb-4 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 text-[18px] font-semibold leading-[25.2px]"
             >
               На какой город ориентирована ваша реклама?
             </Typography>
@@ -194,7 +224,7 @@ export const RequirementsDrawer = ({ children }: { children: ReactNode }) => {
             {/* Section 2: Languages */}
             <Typography
               variant="headline3"
-              className="mb-4 mt-6 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 mt-6 text-[18px] font-semibold leading-[25.2px]"
             >
               Выберите язык рекламы
             </Typography>
@@ -221,7 +251,7 @@ export const RequirementsDrawer = ({ children }: { children: ReactNode }) => {
             {/* Section 3: Deadline */}
             <Typography
               variant="headline3"
-              className="mb-4 mt-6 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 mt-6 text-[18px] font-semibold leading-[25.2px]"
             >
               Укажите сроки действия проекта
             </Typography>
@@ -263,7 +293,7 @@ export const RequirementsDrawer = ({ children }: { children: ReactNode }) => {
             {/* Section 4: Ages */}
             <Typography
               variant="headline3"
-              className="mb-4 mt-6 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 mt-6 text-[18px] font-semibold leading-[25.2px]"
             >
               На какой возраст аудитории ориентирована ваша реклама?
             </Typography>
@@ -271,7 +301,7 @@ export const RequirementsDrawer = ({ children }: { children: ReactNode }) => {
               {["18-24", "25-34", "35-44", "45-54"].map((age) => (
                 <div
                   key={age}
-                  className={`cursor-pointer rounded-[16px] border-[1px] border-black px-3 py-[7px] ${
+                  className={`cursor-pointer rounded-[16px] border-[1px] border-[#171719] border-opacity-[40%] px-3 py-[7px] ${
                     selectedAges.includes(age)
                       ? "bg-black text-white"
                       : " bg-white text-black"
@@ -288,7 +318,7 @@ export const RequirementsDrawer = ({ children }: { children: ReactNode }) => {
             {/* Section 5: Genders */}
             <Typography
               variant="headline3"
-              className="mb-4 mt-6 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 mt-6 text-[18px] font-semibold leading-[25.2px]"
             >
               На какой пол ориентирована ваша реклама?
             </Typography>
@@ -315,23 +345,20 @@ export const RequirementsDrawer = ({ children }: { children: ReactNode }) => {
             {/* Section 6: Audience Specification (Dummy Input) */}
             <Typography
               variant="headline3"
-              className="mb-4 mt-6 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 mt-6 text-[18px] font-semibold leading-[25.2px]"
             >
               Опишите вашу аудиторию (не обязательно)
             </Typography>
             <textarea
-              value={""} // Keep it empty as it's a dummy input
-              onChange={() => {}} // Do nothing on change
               placeholder="Какие интересы у вашей аудитории, доход, образ жизни и т.д."
               className="h-[150px] w-full resize-none rounded-[16px] border border-[#1717191F] p-4 focus:border-[#8065FF] focus:outline-none"
               style={{ lineClamp: 3 }}
-              disabled // Disable the input if needed
             />
 
             {/* Section 7: Расскажите о вашем проекте (бизнесе) */}
             <Typography
               variant="headline3"
-              className="mb-4 mt-6 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 mt-6 text-[18px] font-semibold leading-[25.2px]"
             >
               Расскажите о вашем проекте (бизнесе)
             </Typography>
@@ -346,7 +373,7 @@ export const RequirementsDrawer = ({ children }: { children: ReactNode }) => {
             {/* Section 8: Техническое задание */}
             <Typography
               variant="headline3"
-              className="mb-4 mt-6 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 mt-6 text-[18px] font-semibold leading-[25.2px]"
             >
               Техническое задание
             </Typography>
@@ -354,8 +381,8 @@ export const RequirementsDrawer = ({ children }: { children: ReactNode }) => {
               value={specificationText}
               onChange={(e) => setSpecificationText(e.target.value)}
               placeholder="Расскажите о вашем проекте (бизнесе), укажите условия размещения рекламы и требования к контенту."
-              className="h-[150px] w-full resize-none rounded-[16px] border border-[#1717191F] p-4 focus:border-[#8065FF] focus:outline-none"
-              style={{ lineClamp: 3 }}
+              className="min-h-[150px] w-full resize-none rounded-[16px] border border-[#1717191F] p-4 focus:border-[#8065FF] focus:outline-none"
+              style={{ lineClamp: 4 }}
             />
           </div>
           <div className="absolute bottom-0 flex w-full flex-nowrap justify-evenly gap-2 bg-white px-5 pb-5">

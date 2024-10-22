@@ -1,9 +1,10 @@
-// components/ImagesDrawer.tsx
 "use client";
 
 import { config } from "@/config";
 import { CreateAdRequest } from "@/entities/project/types";
 import CloseIcon from "@/shared/assets/icons/icon_close.svg";
+import IconImageRed from "@/shared/assets/icons/icon_image_red.svg";
+import IconTrashWhite from "@/shared/assets/icons/icon_trash_white.svg";
 import IconUpload from "@/shared/assets/icons/icon_upload.svg";
 import { Button } from "@/shared/ui/Button";
 import {
@@ -17,14 +18,9 @@ import { cn } from "@/shared/utils/common";
 import React, { ReactNode, useEffect, useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 
-// components/ImagesDrawer.tsx
-
-// components/ImagesDrawer.tsx
-
 export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
   const { setValue, control } = useFormContext<CreateAdRequest>();
 
-  // Watch the 'logo_url' and 'banner_url' fields
   const logoUrl =
     useWatch({
       control,
@@ -37,17 +33,14 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
       name: "banner_url",
     }) || "";
 
-  // Local state for file inputs and previews
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [bannerFile, setBannerFile] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState<string>(logoUrl);
   const [bannerPreview, setBannerPreview] = useState<string>(bannerUrl);
-
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const hasValues = logoUrl && bannerUrl;
 
-  // Handle file selection for logo
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -56,7 +49,6 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Handle file selection for banner
   const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -65,9 +57,7 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Function to upload files
   const uploadFile = async (file: File): Promise<string> => {
-    // Implement the file upload logic here
     const formData = new FormData();
     formData.append("file", file);
 
@@ -81,8 +71,7 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
     }
 
     const data = await response.json();
-    const guid = data.guid; // The 'guid' returned from the API
-    // Construct the image URL
+    const guid = data.guid;
     const imageUrl = `${config.API_BASE}/statics/objects/${guid}`;
     return imageUrl;
   };
@@ -91,32 +80,40 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
     try {
       setIsUploading(true);
 
-      // Upload logo if a new file is selected
       let logoUrlValue = logoUrl;
       if (logoFile) {
         logoUrlValue = await uploadFile(logoFile);
         setValue("logo_url", logoUrlValue);
       }
 
-      // Upload banner if a new file is selected
       let bannerUrlValue = bannerUrl;
       if (bannerFile) {
         bannerUrlValue = await uploadFile(bannerFile);
         setValue("banner_url", bannerUrlValue);
       }
 
-      // Reset local files
       setLogoFile(null);
       setBannerFile(null);
     } catch (error) {
       console.error(error);
-      // Handle error, e.g., show notification
     } finally {
       setIsUploading(false);
     }
   };
 
-  // Update local state when form data changes (e.g., when the drawer opens)
+  // Remove the selected image on clicking the trash icon
+  const handleRemoveImage = (imageType: "logo" | "banner") => {
+    if (imageType === "logo") {
+      setLogoFile(null);
+      setLogoPreview("");
+      setValue("logo_url", "");
+    } else {
+      setBannerFile(null);
+      setBannerPreview("");
+      setValue("banner_url", "");
+    }
+  };
+
   useEffect(() => {
     setLogoPreview(logoUrl);
     setBannerPreview(bannerUrl);
@@ -133,10 +130,10 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
         </DrawerTrigger>
         <DrawerContent>
           <div
-            style={{ height: "calc(100dvh - 48px)" }}
+            style={{ height: "calc(100dvh - 24px)" }}
             className="flex flex-col gap-3 overflow-auto px-4 pb-[102px]"
           >
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-7 flex items-center justify-between">
               <Typography
                 variant="headline3"
                 className="semibold w-full text-center text-[16px] leading-[22.4px]"
@@ -145,29 +142,39 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
               </Typography>
 
               <DrawerClose asChild>
-                <CloseIcon width={28} height={28} className="text-base-700" />
+                <CloseIcon
+                  width={28}
+                  height={28}
+                  className="text-base-700 absolute right-5"
+                />
               </DrawerClose>
             </div>
 
             <Typography
               variant="headline3"
-              className="mb-4 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 text-[18px] font-semibold leading-[25.2px]"
             >
               Добавьте изображения
             </Typography>
 
             {/* Section 1: Логотип* */}
-            <Typography className="text-[16px] font-semibold leading-[20.8px]">
+            <Typography className="text-[16px] font-normal leading-[20.8px]">
               Логотип*
             </Typography>
             <div className="flex items-center gap-4">
-              <div className="relative">
+              <div className="group relative">
                 {logoPreview ? (
-                  <img
-                    src={logoPreview}
-                    alt="Logo Preview"
-                    className="h-[80px] w-[80px] rounded-[12px] object-cover"
-                  />
+                  <div className="relative h-[80px] w-[80px]">
+                    <img
+                      src={logoPreview}
+                      alt="Logo Preview"
+                      className="h-full w-full rounded-[12px] object-cover group-hover:bg-[#364467] group-hover:bg-opacity-40 group-hover:blur-[1px]"
+                    />
+                    <IconTrashWhite
+                      className="absolute inset-0 m-auto h-6 w-6 cursor-pointer opacity-0 transition-opacity group-hover:opacity-100"
+                      onClick={() => handleRemoveImage("logo")}
+                    />
+                  </div>
                 ) : (
                   <div className="flex h-[80px] w-[80px] items-center justify-center rounded-[12px] border border-[#1717191F] bg-[#8065FF0D] text-sm text-gray-500">
                     <IconUpload />
@@ -183,17 +190,23 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
             </div>
 
             {/* Section 2: Главное изображение* */}
-            <Typography className="mt-6 text-[16px] font-semibold leading-[20.8px]">
+            <Typography className="mt-6 text-[16px] font-normal leading-[20.8px]">
               Главное изображение*
             </Typography>
             <div className="flex items-center gap-4">
-              <div className="relative">
+              <div className="group relative">
                 {bannerPreview ? (
-                  <img
-                    src={bannerPreview}
-                    alt="Banner Preview"
-                    className="h-[80px] w-[80px] rounded-[12px] object-cover"
-                  />
+                  <div className="relative h-[80px] w-[80px]">
+                    <img
+                      src={bannerPreview}
+                      alt="Banner Preview"
+                      className="h-full w-full rounded-[12px] object-cover group-hover:bg-[#364467] group-hover:bg-opacity-40 group-hover:blur-[1px]"
+                    />
+                    <IconTrashWhite
+                      className="absolute inset-0 m-auto h-6 w-6 cursor-pointer opacity-0 transition-opacity group-hover:opacity-100"
+                      onClick={() => handleRemoveImage("banner")}
+                    />
+                  </div>
                 ) : (
                   <div className="flex h-[80px] w-[80px] items-center justify-center rounded-[12px] border border-[#1717191F] bg-[#8065FF0D] text-sm text-gray-500">
                     <IconUpload />
@@ -218,7 +231,6 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
                     : "flex-1 bg-[#8065FF]",
                 )}
                 onClick={handleApply}
-                // disabled={!hasValues || isUploading}
               >
                 {isUploading ? "Загрузка..." : "Сохранить"}
               </Button>

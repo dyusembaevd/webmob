@@ -20,6 +20,48 @@ import { useFormContext, useWatch } from "react-hook-form";
 
 // components/CategoriesDrawer.tsx
 
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
+// components/CategoriesDrawer.tsx
+
 interface Category {
   id: number;
   name: string;
@@ -95,10 +137,10 @@ export const CategoriesDrawer = ({ children }: { children: ReactNode }) => {
           </DrawerTrigger>
           <DrawerContent>
             <div
-              style={{ height: "calc(100dvh - 48px)" }}
+              style={{ height: "calc(100dvh - 24px)" }}
               className="flex flex-col gap-3 overflow-auto px-4 pb-[102px]"
             >
-              <div className="mb-4 flex items-center justify-between">
+              <div className="mb-7 flex items-center justify-between">
                 <Typography
                   variant="headline3"
                   className="semibold w-full text-center text-[16px] leading-[22.4px]"
@@ -107,31 +149,35 @@ export const CategoriesDrawer = ({ children }: { children: ReactNode }) => {
                 </Typography>
 
                 <DrawerClose asChild>
-                  <CloseIcon width={28} height={28} className="text-base-700" />
+                  <CloseIcon
+                    width={28}
+                    height={28}
+                    className="text-base-700 absolute right-5"
+                  />
                 </DrawerClose>
               </div>
               <Typography
                 variant="headline3"
-                className="mb-4 text-[18px] font-semibold leading-[25.2px]"
+                className="mb-5 text-[18px] font-semibold leading-[25.2px]"
               >
                 Выберите тематику вашего проекта из предложенных категорий
               </Typography>
 
-              <div className="mt-6 flex w-full flex-col items-stretch justify-start gap-2">
+              <div className="flex w-full flex-col items-stretch justify-start gap-8 overflow-auto px-5">
                 {isLoadingCategories ? (
                   <Typography>Загрузка категорий...</Typography>
                 ) : (
                   categoriesData?.map((categoryGroup: CategoryGroup) => (
-                    <div key={categoryGroup.id} className="mt-4">
+                    <div key={categoryGroup.id}>
                       <Typography className="text-[16px] font-semibold leading-[20.8px]">
                         {categoryGroup.title}
                       </Typography>
-                      <div className="mt-2 flex w-full flex-wrap gap-2">
+                      <div className="mt-5 flex w-full flex-wrap gap-x-2 gap-y-5">
                         {categoryGroup.categories.map((category: Category) => (
                           <div
                             key={category.id}
                             className={cn(
-                              "cursor-pointer rounded-[16px] border-[1px] border-black px-3 py-[7px]",
+                              "cursor-pointer rounded-[16px] border-[1px] border-[#171719] border-opacity-[40%] px-3 py-[7px]",
                               selectedCategories.includes(category.id)
                                 ? "bg-black text-white"
                                 : "bg-white text-black",
@@ -149,7 +195,7 @@ export const CategoriesDrawer = ({ children }: { children: ReactNode }) => {
                 )}
               </div>
             </div>
-            <div className="absolute bottom-0 flex w-full flex-nowrap justify-evenly gap-2 bg-white px-5 pb-5">
+            <div className="absolute bottom-0 z-40 flex w-full flex-nowrap justify-evenly gap-2 bg-white px-5 pb-5">
               <DrawerClose asChild>
                 <Button
                   className={cn(

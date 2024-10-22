@@ -21,6 +21,26 @@ import { useFormContext, useWatch } from "react-hook-form";
 
 // components/PublicationsDrawer.tsx
 
+// components/PublicationsDrawer.tsx
+
+// components/PublicationsDrawer.tsx
+
+// components/PublicationsDrawer.tsx
+
+// components/PublicationsDrawer.tsx
+
+// components/PublicationsDrawer.tsx
+
+// components/PublicationsDrawer.tsx
+
+// components/PublicationsDrawer.tsx
+
+// components/PublicationsDrawer.tsx
+
+// components/PublicationsDrawer.tsx
+
+// components/PublicationsDrawer.tsx
+
 export const PublicationsDrawer = ({ children }: { children: ReactNode }) => {
   const { setValue, control } = useFormContext<CreateAdRequest>();
 
@@ -117,10 +137,10 @@ export const PublicationsDrawer = ({ children }: { children: ReactNode }) => {
         </DrawerTrigger>
         <DrawerContent>
           <div
-            style={{ height: "calc(100dvh - 48px)" }}
+            style={{ height: "calc(100dvh - 24px)" }}
             className="flex flex-col gap-3 overflow-auto px-4 pb-[102px]"
           >
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-7 flex items-center justify-between">
               <Typography
                 variant="headline3"
                 className="semibold w-full text-center text-[16px] leading-[22.4px]"
@@ -129,18 +149,22 @@ export const PublicationsDrawer = ({ children }: { children: ReactNode }) => {
               </Typography>
 
               <DrawerClose asChild>
-                <CloseIcon width={28} height={28} className="text-base-700" />
+                <CloseIcon
+                  width={28}
+                  height={28}
+                  className="text-base-700 absolute right-5"
+                />
               </DrawerClose>
             </div>
 
             {/* Section 1: Content Types */}
             <Typography
               variant="headline3"
-              className="mb-4 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 text-[18px] font-semibold leading-[25.2px]"
             >
               Выберите формат публикации
             </Typography>
-            <div className="flex w-full flex-col items-stretch justify-start gap-2">
+            <div className="flex w-full flex-col items-stretch justify-start gap-3">
               {contentTypeOptions.map(({ label, value }) => (
                 <div key={value} className="flex items-center gap-2">
                   <Checkbox
@@ -164,11 +188,11 @@ export const PublicationsDrawer = ({ children }: { children: ReactNode }) => {
             {/* Section 2: Price Types */}
             <Typography
               variant="headline3"
-              className="mb-4 mt-6 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 mt-6 text-[18px] font-semibold leading-[25.2px]"
             >
               Выберите способ оплаты за рекламу
             </Typography>
-            <div className="flex w-full flex-col items-stretch justify-start gap-2">
+            <div className="flex w-full flex-col items-stretch justify-start gap-3">
               {priceTypeOptions.map(({ label, value }) => (
                 <div key={value} className="flex items-center gap-2">
                   <Checkbox
@@ -192,11 +216,11 @@ export const PublicationsDrawer = ({ children }: { children: ReactNode }) => {
             {/* Section 3: Price Range */}
             <Typography
               variant="headline3"
-              className="mb-4 mt-6 text-[18px] font-semibold leading-[25.2px]"
+              className="mb-2 mt-6 text-[18px] font-semibold leading-[25.2px]"
             >
               Укажите сумму оплаты (не обязательно)
             </Typography>
-            <div className="flex items-center gap-2">
+            <div className="flex h-10 items-center gap-2">
               {/* Min Price */}
               <label
                 htmlFor="minPrice"
@@ -210,7 +234,7 @@ export const PublicationsDrawer = ({ children }: { children: ReactNode }) => {
                 id="minPrice"
                 value={minPriceInput}
                 onChange={(e) => setMinPriceInput(e.target.valueAsNumber || "")}
-                className="h-[52px] w-full rounded-[24px] border border-[#1717191F] px-[14px] py-[6px] focus:border-[#8065FF] focus:outline-none"
+                className="h-[40px] w-full rounded-[24px] border border-[#1717191F] px-[14px] py-[6px] focus:border-[#8065FF] focus:outline-none"
                 placeholder="Цена, ₸"
                 min={0}
               />
@@ -227,7 +251,7 @@ export const PublicationsDrawer = ({ children }: { children: ReactNode }) => {
                 id="maxPrice"
                 value={maxPriceInput}
                 onChange={(e) => setMaxPriceInput(e.target.valueAsNumber || "")}
-                className="h-[52px] w-full rounded-[24px] border border-[#1717191F] px-[14px] py-[6px] focus:border-[#8065FF] focus:outline-none"
+                className="h-[40px] w-full rounded-[24px] border border-[#1717191F] px-[14px] py-[6px] focus:border-[#8065FF] focus:outline-none"
                 placeholder="Цена, ₸"
                 min={0}
               />
