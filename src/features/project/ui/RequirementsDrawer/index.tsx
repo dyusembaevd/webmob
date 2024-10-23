@@ -23,32 +23,6 @@ import { useFormContext, useWatch } from "react-hook-form";
 
 // components/RequirementsDrawer.tsx
 
-// components/RequirementsDrawer.tsx
-
-// components/RequirementsDrawer.tsx
-
-// components/RequirementsDrawer.tsx
-
-// components/RequirementsDrawer.tsx
-
-// components/RequirementsDrawer.tsx
-
-// components/RequirementsDrawer.tsx
-
-// components/RequirementsDrawer.tsx
-
-// components/RequirementsDrawer.tsx
-
-// components/RequirementsDrawer.tsx
-
-// components/RequirementsDrawer.tsx
-
-// components/RequirementsDrawer.tsx
-
-// components/RequirementsDrawer.tsx
-
-// components/RequirementsDrawer.tsx
-
 export const RequirementsDrawer = ({ children }: { children: ReactNode }) => {
   const { setValue, control } = useFormContext<CreateAdRequest>();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
