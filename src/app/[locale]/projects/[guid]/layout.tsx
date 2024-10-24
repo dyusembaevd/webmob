@@ -15,5 +15,5 @@ export default async function ProjectLayout({
     id: string;
   };
 }) {
-  return children;
+  return <>{children}</>;
 }

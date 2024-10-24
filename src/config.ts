@@ -8,8 +8,9 @@ export const pathnames = {
   "/nda": "/nda",
   "/user-agreement": "/user-agreement",
   "/bloggers/[id]": "/bloggers/[id]",
-  "/project": "/project",
-  "/project/[guid]": "/project/[guid]",
+  "/projects": "/projects",
+  "/projects/create": "projects/create",
+  "/projects/[guid]": "/projects/[guid]",
 } satisfies Pathnames<typeof locales>;
 
 // Use the default: `always`

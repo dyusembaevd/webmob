@@ -354,7 +354,7 @@ export default function ProjectPage() {
         onProjectPreview={() => {
           if (createdProjectGuid) {
             closeDrawer();
-            router.push(`/project/${createdProjectGuid}` as any);
+            router.push(`/projects/${createdProjectGuid}` as any);
           }
         }}
       />
