@@ -75,7 +75,8 @@ export default function ProjectPage() {
 
   const deadline = methods.watch("deadline");
   const specification = methods.watch("specification");
-  const isTechnicalTaskFilled = deadline?.trim() && specification?.trim();
+  const isTechnicalTaskFilled = specification?.trim();
+  console.log(specification?.trim());
 
   const bonus = methods.watch("bonus");
   const isBonusFilled = bonus?.trim();
@@ -91,7 +92,6 @@ export default function ProjectPage() {
   const isFormValid =
     categoryIds?.length > 0 &&
     cityIds?.length > 0 &&
-    !!deadline?.trim() &&
     maxPrice > 0 &&
     minPrice > 0 &&
     !!requirements &&

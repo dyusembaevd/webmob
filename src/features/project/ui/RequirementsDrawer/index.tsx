@@ -23,6 +23,8 @@ import { useFormContext, useWatch } from "react-hook-form";
 
 // components/RequirementsDrawer.tsx
 
+// components/RequirementsDrawer.tsx
+
 export const RequirementsDrawer = ({ children }: { children: ReactNode }) => {
   const { setValue, control } = useFormContext<CreateAdRequest>();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -90,7 +92,7 @@ export const RequirementsDrawer = ({ children }: { children: ReactNode }) => {
     if (deadlineOption === "set_deadline" && selectedDate) {
       setValue("deadline", selectedDate.toISOString());
     } else {
-      setValue("deadline", "");
+      setValue("deadline", null);
     }
 
     // Update requirements.ages

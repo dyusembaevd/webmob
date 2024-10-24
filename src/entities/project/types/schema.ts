@@ -22,7 +22,7 @@ export const CreateAdRequestSchema = z.object({
   bonus: z.string().optional(),
   category_ids: z.array(z.number().int()),
   city_ids: z.array(z.number().int()),
-  deadline: z.string(), // or use z.date().transform(...)
+  deadline: z.string().nullable().optional(),
   description: z.string().optional(),
   logo_url: z.string().url().optional(),
   max_price: z.number(),

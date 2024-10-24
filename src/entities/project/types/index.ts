@@ -23,7 +23,7 @@ export interface CreateAdRequest {
   bonus: string;
   category_ids: number[];
   city_ids: number[];
-  deadline: string;
+  deadline: string | null;
   description: string;
   logo_url: string;
   max_price: number;
@@ -45,7 +45,7 @@ export interface Project {
   banner_url: string;
   min_price: number;
   max_price: number;
-  deadline: string;
+  deadline: string | null;
   requirements: Requirements;
   categories: Category[];
   cities: City[];
