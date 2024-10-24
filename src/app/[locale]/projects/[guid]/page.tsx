@@ -1,32 +1,32 @@
 "use client";
 
 import { config } from "@/config";
-import { Blogger } from "@/entities/blogger/types";
 import { CategoryBadge } from "@/entities/blogger/ui/CategoryBadge";
-import { Project } from "@/entities/project/types";
-import { ProjectCreatedDrawer } from "@/entities/project/ui/ProjectCreatedDrawer";
-import IconFavorite from "@/features/bloggers/ui/IconFavorite";
-import { City } from "@/features/profile/types";
+import { genderLabels, SpecificationsAccordion } from "@/entities/project";
+import { EGender, Project } from "@/entities/project/types";
+import FollowersAccordion from "@/entities/project/ui/FollowersAccordion";
 import { Link, useRouter } from "@/navigation";
-import IconArrowL from "@/shared/assets/icons/icon_arrow-l.svg";
 import IconArrowR from "@/shared/assets/icons/icon_arrow-r.svg";
 import IconCloseWhite from "@/shared/assets/icons/icon_close_white.svg";
 import IconInstagram from "@/shared/assets/icons/icon_instagram_filled.svg";
-import IconStatistics from "@/shared/assets/icons/icon_statistics_dark.svg";
+import IconMood from "@/shared/assets/icons/icon_mood.svg";
 import IconTiktok from "@/shared/assets/icons/icon_tiktok_filled.svg";
-import IconWallet from "@/shared/assets/icons/icon_wallet.svg";
-import { Button } from "@/shared/ui/Button";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/shared/ui/Accordion";
 import { ReadMore } from "@/shared/ui/ReadMore";
-import { Skeleton } from "@/shared/ui/Skeleton";
 import { Typography } from "@/shared/ui/Typography";
 import { cn } from "@/shared/utils/common";
-import { formatFullName } from "@/shared/utils/formatters";
 import { Footer } from "@/widgets/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 
+// Fetch project by ID
 const fetchProjectById = async (
   id: string,
   locale: string,
@@ -35,10 +35,9 @@ const fetchProjectById = async (
     `${config.API_BASE}/merchants/mvp/ads/${id}?lang=${locale}`,
   );
   if (!res.ok) {
-    throw new Error("Failed to fetch blogger data");
+    throw new Error("Failed to fetch project data");
   }
-  const data: Project = await res.json();
-  return data;
+  return res.json();
 };
 
 export default function BloggerByIdPage({
@@ -54,8 +53,8 @@ export default function BloggerByIdPage({
     queryFn: () => fetchProjectById(params.guid, locale),
     enabled: !!params.guid,
   });
-  if (isLoading) return <div>Loading...</div>;
 
+  if (isLoading) return <div>Loading...</div>;
   if (error || !data) return <div>Error loading project data</div>;
 
   return (
@@ -65,9 +64,9 @@ export default function BloggerByIdPage({
           <div />
           <button
             onClick={() => router.back()}
-            className="flex h-8 w-8 items-center justify-center rounded-lg backdrop-blur-2xl"
+            className="flex h-8 w-8 items-center justify-center"
           >
-            <IconCloseWhite className={`${"scale-100 "}`} />
+            <IconCloseWhite />
           </button>
         </div>
         {data?.banner_url && (
@@ -79,35 +78,34 @@ export default function BloggerByIdPage({
           />
         )}
       </div>
+
       <div className="flex min-h-[70dvh] w-full flex-col items-stretch justify-start gap-4 overflow-hidden bg-[#1717190A] px-5 pt-4">
         <div className="-mx-5 flex items-stretch justify-start gap-1 overflow-x-auto px-5">
-          {data?.categories && data?.categories?.length > 0
-            ? data?.categories?.map((item) => (
-                <CategoryBadge
-                  key={item.id}
-                  id={item.id}
-                  color={item.color}
-                  name={item.name}
-                />
-              ))
-            : null}
+          {data?.categories?.map((item) => (
+            <CategoryBadge
+              key={item.id}
+              id={item.id}
+              color={item.color}
+              name={item.name}
+            />
+          ))}
         </div>
+
         <div className="flex flex-col items-stretch justify-start gap-8">
           <div className="w-full">
             <Typography className="text-[24px] font-bold leading-[28.8px]">
               {data?.title ?? "Новый проект"}
             </Typography>
-
             <ReadMore text={data?.description ?? ""} />
             <div className="mt-3 flex max-h-6 w-full items-stretch justify-start gap-2">
               <div className="flex items-center justify-start gap-1">
                 {data?.requirements?.social_networks?.map((network, index) => {
-                  switch (network.type) {
+                  switch (network.value) {
                     case "instagram":
                       return (
                         <div
                           key={index}
-                          className="flex h-8 w-8 items-center justify-center rounded-[8px] border-[1px] border-[#1717191F]"
+                          className="flex h-6 w-6 items-center justify-center rounded-[8px] border-[1px] border-[#1717191F]"
                         >
                           <IconInstagram />
                         </div>
@@ -116,7 +114,7 @@ export default function BloggerByIdPage({
                       return (
                         <div
                           key={index}
-                          className="flex h-8 w-8 items-center justify-center rounded-[8px] border-[1px] border-[#1717191F]"
+                          className="flex h-6 w-6 items-center justify-center rounded-[8px] border-[1px] border-[#1717191F]"
                         >
                           <IconTiktok />
                         </div>
@@ -128,95 +126,36 @@ export default function BloggerByIdPage({
               </div>
             </div>
           </div>
-          <div className="flex w-full flex-col items-stretch justify-start gap-2">
-            <Typography className="text-[18px] font-semibold leading-[25.2px]">
-              Ссылки на социальные сети
-            </Typography>
+          {/* Social Networks Section */}
+          <SocialNetworksContent
+            socialNetworks={data?.requirements?.social_networks}
+          />
 
-            {/* Checking and rendering social network links */}
-            {data?.requirements?.social_networks?.map((network, index) => {
-              if (network.value === "instagram") {
-                return (
-                  <Typography
-                    key={index}
-                    className="text-[16px] leading-[20.8px]"
-                  >
-                    <Link
-                      className="block text-[#8065FF]"
-                      href={
-                        `https://www.instagram.com/${network.description || ""}` as any
-                      }
-                    >
-                      Instagram
-                    </Link>
-                  </Typography>
-                );
-              } else if (network.value === "tiktok") {
-                return (
-                  <Typography
-                    key={index}
-                    className="text-[16px] leading-[20.8px]"
-                  >
-                    <Link
-                      className="block text-[#8065FF]"
-                      href={
-                        `https://www.tiktok.com/@${network.description || ""}` as any
-                      }
-                    >
-                      Tiktok
-                    </Link>
-                  </Typography>
-                );
-              } else {
-                return null;
-              }
-            })}
-          </div>
-          <div className="flex w-full flex-col items-stretch justify-start gap-2">
-            <Typography className="text-[18px] font-semibold leading-[25.2px]">
-              Язык публикаций
-            </Typography>
-            <Typography className="text-[16px] leading-[20.8px]">
-              {data?.requirements?.languages &&
-              data.requirements.languages?.length > 0
-                ? data?.requirements?.languages
-                    .map((language) => {
-                      switch (language.value) {
-                        case "kz":
-                          return "Казахский";
-                        case "ru":
-                          return "Русский";
-                        case "en":
-                          return "Английский";
-                        default:
-                          return null;
-                      }
-                    })
-                    .filter(Boolean) // To remove null values in case of invalid language codes
-                    .join(", ")
-                : "Не указано"}
-            </Typography>
-          </div>
+          {/* Deadline Section */}
+          <ProjectDeadlineContent deadline={data?.deadline} />
 
-          <div className="flex w-full flex-col items-stretch justify-start gap-2">
-            <Typography className="text-[18px] font-semibold leading-[25.2px]">
-              Регион
-            </Typography>
-            {data?.cities && data.cities.length > 0 ? (
-              data?.cities.map((city, index) => (
-                <Typography
-                  key={city.id}
-                  className="text-[16px] leading-[20.8px] text-text-secondary-subduet"
-                >
-                  {`${city.name}, Казахстан`}
-                </Typography>
-              ))
-            ) : (
-              <Typography className="text-[16px] leading-[20.8px]">
-                Не указано
-              </Typography>
-            )}
-          </div>
+          {/* Region Section */}
+          <ProjectRegionContent cities={data?.cities} />
+
+          {/* Language Section */}
+          <PublicationLanguageContent
+            languages={data?.requirements?.languages}
+          />
+
+          {/* Bonuses Section */}
+          <BonusesContent bonus={data?.bonus} />
+
+          {/* Payment Method Section */}
+          <PaymentMethodContent priceTypes={data?.requirements?.price_types} />
+          <SpecificationsAccordion
+            contentTypes={data?.requirements?.content_types}
+            specification={data?.specification}
+          />
+
+          <FollowersAccordion
+            ages={data?.requirements?.ages}
+            genders={data?.requirements?.genders}
+          />
         </div>
 
         <div className="my-20 flex w-full items-center justify-start gap-2">
@@ -237,3 +176,174 @@ export default function BloggerByIdPage({
     </div>
   );
 }
+
+// Component: Social Networks
+const SocialNetworksContent: React.FC<{
+  socialNetworks: Project["requirements"]["social_networks"];
+}> = ({ socialNetworks }) => {
+  return (
+    <div className="flex flex-col items-stretch justify-start gap-2">
+      <Typography className="text-[18px] font-semibold leading-[25.2px]">
+        Ссылки на социальные сети
+      </Typography>
+      {socialNetworks?.map((network, index) => {
+        if (network.value === "instagram") {
+          return (
+            <Typography key={index} className="text-[16px] leading-[20.8px]">
+              <Link
+                className="block text-[#8065FF]"
+                href={`${network.description || ""}` as any}
+              >
+                Instagram
+              </Link>
+            </Typography>
+          );
+        } else if (network.value === "tiktok") {
+          return (
+            <Typography key={index} className="text-[16px] leading-[20.8px]">
+              <Link
+                className="block text-[#8065FF]"
+                href={`${network.description || ""}` as any}
+              >
+                Tiktok
+              </Link>
+            </Typography>
+          );
+        }
+        return null;
+      })}
+    </div>
+  );
+};
+
+// Component: Project Deadline
+const ProjectDeadlineContent: React.FC<{ deadline?: string | null }> = ({
+  deadline,
+}) => (
+  <div className="flex flex-col items-stretch justify-start gap-2">
+    <Typography className="text-[18px] font-semibold leading-[25.2px]">
+      Срок выполнения
+    </Typography>
+    {deadline ? (
+      <Typography className="text-[16px] leading-[20.8px] text-[#171719E0]">
+        {new Date(deadline).toLocaleDateString("ru-RU", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
+      </Typography>
+    ) : (
+      <Typography className="text-[16px] leading-[20.8px] text-[#171719E0]">
+        Не указано
+      </Typography>
+    )}
+  </div>
+);
+
+// Component: Region
+const ProjectRegionContent: React.FC<{ cities: Project["cities"] }> = ({
+  cities,
+}) => (
+  <div className="flex flex-col items-stretch justify-start gap-2">
+    <Typography className="text-[18px] font-semibold leading-[25.2px]">
+      Регион
+    </Typography>
+    {cities?.length > 0 ? (
+      cities.map((city) => (
+        <Typography
+          key={city.id}
+          className="text-[16px] leading-[20.8px] text-[#171719E0]"
+        >
+          {`${city.name}, Казахстан`}
+        </Typography>
+      ))
+    ) : (
+      <Typography className="text-[16px] leading-[20.8px]">
+        Не указано
+      </Typography>
+    )}
+  </div>
+);
+
+// Component: Publication Language
+const PublicationLanguageContent: React.FC<{
+  languages: Project["requirements"]["languages"];
+}> = ({ languages }) => (
+  <div className="flex flex-col items-stretch justify-start gap-2">
+    <Typography className="text-[18px] font-semibold leading-[25.2px]">
+      Язык публикаций
+    </Typography>
+    <Typography className="text-[16px] leading-[20.8px]">
+      {languages && languages?.length > 0
+        ? languages
+            .map((language) => {
+              switch (language.value) {
+                case "kz":
+                  return "Казахский";
+                case "ru":
+                  return "Русский";
+                case "en":
+                  return "Английский";
+                default:
+                  return null;
+              }
+            })
+            .filter(Boolean)
+            .join(", ")
+        : "Не указано"}
+    </Typography>
+  </div>
+);
+
+// Component: Bonuses
+const BonusesContent: React.FC<{ bonus?: string }> = ({ bonus }) => (
+  <div className="flex flex-col items-stretch justify-start gap-2">
+    <Typography className="text-[18px] font-semibold leading-[25.2px]">
+      Бонусы для подписчиков
+    </Typography>
+    <div className="flex items-center justify-start gap-2 rounded-[12px] bg-[#8065FF] bg-opacity-5 p-3">
+      <div className="h-4 w-4 self-start">
+        <IconMood />
+      </div>
+      <Typography className="text-[14px] font-normal leading-[19.6px]">
+        {bonus || "Не указано"}
+      </Typography>
+    </div>
+  </div>
+);
+
+// Component: Payment Method
+const PaymentMethodContent: React.FC<{
+  priceTypes?: Project["requirements"]["price_types"];
+}> = ({ priceTypes }) => (
+  <div className="flex flex-col items-stretch justify-start gap-2">
+    <Typography className="text-[18px] font-semibold leading-[25.2px]">
+      Способ оплаты
+    </Typography>
+    <div className="flex items-center justify-start gap-2 rounded-[12px] bg-[#8065FF] bg-opacity-5 p-3">
+      <div className="h-4 w-4 self-start">
+        <IconMood />
+      </div>
+      <Typography className="text-[14px] font-normal leading-[19.6px]">
+        Оплата -
+        {priceTypes?.map((item, index) => {
+          const paymentMethod =
+            item.value === "money"
+              ? "деньгами"
+              : item.value === "barter"
+                ? "бартер"
+                : "деньгами, бартер";
+          return (
+            <span
+              key={index}
+              className="text-[14px] font-semibold leading-[19.6px]"
+            >
+              {" "}
+              {paymentMethod}
+            </span>
+          );
+        })}
+      </Typography>
+    </div>
+  </div>
+);

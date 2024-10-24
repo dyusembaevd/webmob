@@ -20,9 +20,8 @@ import { useFormContext } from "react-hook-form";
 export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
   const { setValue } = useFormContext();
 
-  // State for managing files and previews
-  const [extraImages, setExtraImages] = useState<File[]>([]);
-  const [extraImagePreviews, setExtraImagePreviews] = useState<string[]>([]);
+  // const [extraImages, setExtraImages] = useState<File[]>([]);
+  // const [extraImagePreviews, setExtraImagePreviews] = useState<string[]>([]);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [bannerFile, setBannerFile] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState<string>("");
@@ -43,13 +42,13 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const handleExtraImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && extraImages.length < 7) {
-      setExtraImages((prev) => [...prev, file]);
-      setExtraImagePreviews((prev) => [...prev, URL.createObjectURL(file)]);
-    }
-  };
+  // const handleExtraImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (file && extraImages.length < 7) {
+  //     setExtraImages((prev) => [...prev, file]);
+  //     setExtraImagePreviews((prev) => [...prev, URL.createObjectURL(file)]);
+  //   }
+  // };
 
   const uploadFile = async (file: File): Promise<string> => {
     const formData = new FormData();
@@ -150,24 +149,22 @@ export const ImagesDrawer = ({ children }: { children: ReactNode }) => {
                 handleFileChange(e, setBannerFile, setBannerPreview)
               }
             />
+          </div>
 
-            {/* Section 3: Фото товара, контент для рекламы и др. */}
-            <Typography className="mt-6 text-[16px] font-normal leading-[20.8px]">
+          {/* Section 3: Фото товара, контент для рекламы и др. */}
+          {/* <Typography className="mt-6 text-[16px] font-normal leading-[20.8px]">
               Фото товара, контент для рекламы и др.
             </Typography>
             <div className="relative -mr-5 flex flex-nowrap items-center gap-4 overflow-x-auto overflow-y-hidden">
-              {/* Render previews for uploaded extra images */}
               {extraImagePreviews.map((preview, index) => (
                 <FileImagePreview key={index} preview={preview} />
               ))}
 
-              {/* Upload button for additional images (max 7) */}
               {extraImages.length < 7 && (
                 <UploadButton handleChange={handleExtraImageChange} />
               )}
             </div>
-          </div>
-
+          </div> */}
           {/* Save/Upload button */}
           <div className="absolute bottom-0 flex w-full flex-nowrap justify-evenly gap-2 bg-white px-5 pb-5">
             <DrawerClose asChild>

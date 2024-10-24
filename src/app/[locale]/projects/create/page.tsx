@@ -144,7 +144,7 @@ export default function ProjectPage() {
               <SocialNetworkDrawer>
                 <motion.button
                   className="group flex items-center justify-start gap-3 rounded-[16px] bg-[#364467] bg-opacity-15 px-4 py-3"
-                  whileTap={{ scale: 0.95 }}
+                  whileTap={{ scale: 0.95, background: "#000000" }}
                   whileHover={{ background: "#000000" }}
                   transition={iconTransition}
                 >
@@ -177,7 +177,7 @@ export default function ProjectPage() {
               <CategoriesDrawer>
                 <motion.button
                   className="group flex items-center justify-start gap-3 rounded-[16px] bg-[#364467] bg-opacity-15 px-4 py-3"
-                  whileTap={{ scale: 0.95 }}
+                  whileTap={{ scale: 0.95, background: "#000000" }}
                   whileHover={{ background: "#000000" }}
                   transition={iconTransition}
                 >
@@ -207,7 +207,11 @@ export default function ProjectPage() {
               <PublicationsDrawer>
                 <motion.button
                   className="group flex items-center justify-start gap-3 rounded-[16px] bg-[#364467] bg-opacity-15 px-4 py-3"
-                  whileTap={{ scale: 0.95 }}
+                  whileTap={{
+                    scale: 0.95,
+                    background: "#000000",
+                    color: "#FFFFFF",
+                  }}
                   whileHover={{ background: "#000000" }}
                   transition={iconTransition}
                 >
@@ -237,7 +241,7 @@ export default function ProjectPage() {
               <RequirementsDrawer>
                 <motion.button
                   className="group flex items-center justify-start gap-3 rounded-[16px] bg-[#364467] bg-opacity-15 px-4 py-3"
-                  whileTap={{ scale: 0.95 }}
+                  whileTap={{ scale: 0.95, background: "#000000" }}
                   whileHover={{ background: "#000000" }}
                   transition={iconTransition}
                 >
@@ -267,7 +271,7 @@ export default function ProjectPage() {
               <BonusesDrawer>
                 <motion.button
                   className="group flex items-center justify-start gap-3 rounded-[16px] bg-[#364467] bg-opacity-15 px-4 py-3"
-                  whileTap={{ scale: 0.95 }}
+                  whileTap={{ scale: 0.95, background: "#000000" }}
                   whileHover={{ background: "#000000" }}
                   transition={iconTransition}
                 >
@@ -297,7 +301,7 @@ export default function ProjectPage() {
               <ImagesDrawer>
                 <motion.button
                   className="group flex items-center justify-start gap-3 rounded-[16px] bg-[#364467] bg-opacity-15 px-4 py-3"
-                  whileTap={{ scale: 0.95 }}
+                  whileTap={{ scale: 0.95, background: "#000000" }}
                   whileHover={{ background: "#000000" }}
                   transition={iconTransition}
                 >

@@ -56,14 +56,19 @@ export default function ProjectPage() {
             <TabsTrigger value="favourite">Избранные</TabsTrigger>
             <TabsTrigger value="archive">Архив</TabsTrigger>
           </TabsList>
-          <div className="flex grow items-center justify-center bg-[#f3f0f0] px-5">
+          <div
+            className={cn(
+              "flex grow flex-col items-center justify-center bg-[#f3f0f0] px-5",
+              data && data.length > 0 ? "justify-start" : "justify-center",
+            )}
+          >
             <TabsContent value="projects" className="min-h-full w-full">
               <div className="flex flex-col items-stretch justify-start gap-4">
                 {isLoading ? (
                   Array.from({ length: 4 }).map((_, i) => (
                     <WidgetProjectCardSkeleton key={i} />
                   ))
-                ) : data ? (
+                ) : data && data.length > 0 ? (
                   data?.map((item) => (
                     <WidgetProjectCard key={item.guid} item={item} />
                   ))

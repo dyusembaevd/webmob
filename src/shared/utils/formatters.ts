@@ -30,3 +30,12 @@ export function getTextColorBasedOnBackground(backgroundColor: string): string {
 
   return luminance > 0.5 ? "#000000" : "#FFFFFF";
 }
+
+export const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("ru-RU", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};

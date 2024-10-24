@@ -50,3 +50,8 @@ export interface Project {
   categories: Category[];
   cities: City[];
 }
+export enum EGender {
+  Male = "male",
+  Female = "female",
+  Other = "other",
+}
